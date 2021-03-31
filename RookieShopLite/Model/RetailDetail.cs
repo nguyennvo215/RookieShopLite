@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RookieShopLite.Model
 {
     public class RetailDetail : BaseEntity
     {
-        public int CartId { get; set; }
+        public RetailDetail()
+        {
+            Cart = new HashSet<Cart>();
+        }
         public double TotalPrice { get; set; }
         public DateTime AddedDate { get; set; }
-        public bool isPaid { get; set; }
-        public virtual Cart Cart { get; set; }
+        public virtual ICollection<Cart> Cart { get; set; }
     }
 }

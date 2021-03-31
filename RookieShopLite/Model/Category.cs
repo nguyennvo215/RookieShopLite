@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RookieShopLite.Model
 {
@@ -8,6 +9,7 @@ namespace RookieShopLite.Model
         {
             Products = new HashSet<Product>();
         }
+        [Required]
         public string CategoryName { get; set; }
         public virtual ICollection<Product> Products { get; private set; }
     }

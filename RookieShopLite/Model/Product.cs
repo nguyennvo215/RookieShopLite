@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RookieShopLite.Model
 {
@@ -11,6 +12,7 @@ namespace RookieShopLite.Model
         }
         public int BrandId { get; set; }
         public int CategoryId { get; set; }
+        [Required]
         public string ProductName { get; set; }
         public string ProductShortDescription { get; set; }
         public string ProductFullDescription { get; set; }

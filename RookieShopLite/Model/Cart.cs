@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RookieShopLite.Model
 {
@@ -9,6 +10,7 @@ namespace RookieShopLite.Model
         {
             Products = new HashSet<Product>();
         }
+        [Required]
         public int UserId { get; set; }
         public double TotalPrice { get; set; }
         public DateTime AddedDate { get; set; }
