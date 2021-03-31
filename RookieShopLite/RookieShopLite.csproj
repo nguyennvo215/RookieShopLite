@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Apis\" />
     <Folder Include="ApiClients\" />
   </ItemGroup>
 
