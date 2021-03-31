@@ -13,6 +13,7 @@ namespace RookieShopLite
             using (var scope = host.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                DbInitializer.Initialize(context);
             }
 
             host.Run();
