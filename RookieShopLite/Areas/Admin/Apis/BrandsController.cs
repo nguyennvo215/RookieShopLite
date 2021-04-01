@@ -27,7 +27,8 @@ namespace RookieShopLite.Areas.Admin.Apis
         public async Task<ActionResult<IEnumerable<BrandViewModel>>> GetBrands()
         {
             return await _context.Brands
-                .Select(x => new BrandViewModel { Id = x.Id, BrandName = x.BrandName})
+                .Where(x => x.isDeleted == false)
+                .Select(x => new BrandViewModel { Id = x.Id, BrandName = x.BrandName })
                 .ToListAsync();
         }
 
@@ -37,7 +38,7 @@ namespace RookieShopLite.Areas.Admin.Apis
         {
             var brand = await _context.Brands.FindAsync(id);
 
-            if (brand == null)
+            if (brand == null || brand.isDeleted == true)
             {
                 return NotFound();
             }
@@ -88,12 +89,13 @@ namespace RookieShopLite.Areas.Admin.Apis
         public async Task<IActionResult> DeleteBrand(int id)
         {
             var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            if (brand == null || brand.isDeleted == true)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            brand.isDeleted = true;
+            _context.Brands.Update(brand);
             await _context.SaveChangesAsync();
 
             return NoContent();
