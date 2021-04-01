@@ -18,7 +18,7 @@ namespace RookieShopLite.Model
         public string ProductFullDescription { get; set; }
         public double ProductPrice { get; set; }
         public double PromotionPrice { get; set; }
-        public bool isPublished { get; set; }
+        public bool isDeleted { get; set; }
         public DateTime AddedDate { get; set; }
         public string AddedBy { get; set; }
         public virtual Category Category { get; set; }

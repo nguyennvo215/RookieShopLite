@@ -11,6 +11,7 @@ namespace RookieShopLite.Model
         }
         [Required]
         public string CategoryName { get; set; }
+        public bool isDeleted { get; set; }
         public virtual ICollection<Product> Products { get; private set; }
     }
 }

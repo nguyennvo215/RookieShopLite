@@ -8,6 +8,7 @@ namespace RookieShopLite.Model
         public int ProductId { get; set; }
         public string imgPath { get; set; }
         public DateTime AddedDate { get; set; }
+        public bool isDeleted { get; set; }
         public virtual Product Product { get; set; }
     }
 }
