@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -12,6 +13,8 @@ using RookieShopLite.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace RookieShopLite
@@ -40,6 +43,27 @@ namespace RookieShopLite
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RookieShop", Version = "v1" });
             });
+
+            services.AddHttpContextAccessor();
+            services.AddHttpClient("local", (configureClient) =>
+            {
+                configureClient.BaseAddress = new Uri("https://localhost:44305/");
+            })
+                .ConfigurePrimaryHttpMessageHandler((serviceProvider) =>
+                {
+                    var httpContext = serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                    var cookieContainer = new CookieContainer();
+                    if (httpContext.Request.Cookies.ContainsKey(".AspNetCore.Identity.Application"))
+                    {
+                        var identityCookieValue = httpContext.Request.Cookies[".AspNetCore.Identity.Application"];
+                        cookieContainer.Add(new Uri("https://localhost:44305/"), new Cookie(".AspNetCore.Identity.Application", identityCookieValue));
+                    }
+                    return new HttpClientHandler()
+                    {
+                        CookieContainer = cookieContainer
+                    };
+                });
+
 
             services.AddControllersWithViews();
         }
