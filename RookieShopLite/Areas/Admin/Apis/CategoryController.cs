@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RookieShopLite.Areas.Admin.Models;
 using RookieShopLite.Data;
 using RookieShopLite.Model;
 using RookieShopLite.ViewModel;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace RookieShopLite.Apis
+namespace RookieShopLite.Areas.Admin.Apis
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -53,7 +54,7 @@ namespace RookieShopLite.Apis
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> PutCategory(int id, CategoryCreateRequest categoryCreateRequest)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -70,7 +71,7 @@ namespace RookieShopLite.Apis
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<ActionResult<CategoryViewModel>> PostCategory(CategoryCreateRequest categoryCreateRequest)
         {
             var category = new Category
@@ -85,7 +86,7 @@ namespace RookieShopLite.Apis
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);

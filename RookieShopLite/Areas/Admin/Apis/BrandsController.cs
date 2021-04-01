@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RookieShopLite.Areas.Admin.Models;
 using RookieShopLite.Data;
 using RookieShopLite.Model;
 using RookieShopLite.ViewModel;
@@ -8,15 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RookieShopLite.Apis
+namespace RookieShopLite.Areas.Admin.Apis
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandController : ControllerBase
+    public class BrandsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public BrandController(ApplicationDbContext context)
+        public BrandsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -51,7 +52,7 @@ namespace RookieShopLite.Apis
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> PutBrand(int id, BrandCreateRequest brandCreateRequest)
         {
             var brand = await _context.Brands.FindAsync(id);
@@ -68,7 +69,7 @@ namespace RookieShopLite.Apis
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<ActionResult<BrandViewModel>> PostBrand(BrandCreateRequest brandCreateRequest)
         {
             var brand = new Brand
@@ -83,7 +84,7 @@ namespace RookieShopLite.Apis
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteBrand(int id)
         {
             var brand = await _context.Brands.FindAsync(id);
