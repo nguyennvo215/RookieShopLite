@@ -16,8 +16,8 @@ namespace RookieShopLite.Model
         public string ProductName { get; set; }
         public string ProductShortDescription { get; set; }
         public string ProductFullDescription { get; set; }
-        public double ProductPrice { get; set; }
-        public double PromotionPrice { get; set; }
+        public double ProductPriceNow { get; set; }
+        public double ProductPriceBefore { get; set; }
         public bool isDeleted { get; set; }
         public DateTime AddedDate { get; set; }
         public string AddedBy { get; set; }
