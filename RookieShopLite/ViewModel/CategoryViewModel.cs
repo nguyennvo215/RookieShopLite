@@ -9,5 +9,6 @@ namespace RookieShopLite.ViewModel
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }
+        public bool isDeleted { get; set; }
     }
 }
