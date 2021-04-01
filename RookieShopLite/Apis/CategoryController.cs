@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RookieShopLite.Data;
+using RookieShopLite.Model;
+using RookieShopLite.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RookieShopLite.Apis
 {
@@ -12,36 +15,89 @@ namespace RookieShopLite.Apis
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        // GET: api/<CategoryController>
+        private readonly ApplicationDbContext _context;
+
+
+        public CategoryController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<CategoryViewModel>>> GetCategories()
         {
-            return new string[] { "value1", "value2" };
+            return await _context.Categories
+                .Select(x => new CategoryViewModel { Id = x.Id, CategoryName = x.CategoryName})
+                .ToListAsync();
         }
 
-        // GET api/<CategoryController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        [AllowAnonymous]
+        public async Task<ActionResult<CategoryViewModel>> GetCategories(int id)
         {
-            return "value";
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            var categoryViewModel = new CategoryViewModel
+            {
+                Id = category.Id,
+                CategoryName = category.CategoryName
+            };
+
+            return categoryViewModel;
         }
 
-        // POST api/<CategoryController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<CategoryController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> PutCategory(int id, CategoryCreateRequest categoryCreateRequest)
         {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            category.CategoryName = categoryCreateRequest.CategoryName;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
 
-        // DELETE api/<CategoryController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<CategoryViewModel>> PostCategory(CategoryCreateRequest categoryCreateRequest)
         {
+            var category = new Category
+            {
+                CategoryName = categoryCreateRequest.CategoryName
+            };
+
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetCategory", new { id = category.Id }, new CategoryViewModel { Id = category.Id, CategoryName = category.CategoryName });
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
