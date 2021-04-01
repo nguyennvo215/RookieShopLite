@@ -29,6 +29,7 @@ namespace RookieShopLite.Areas.Admin.Apis
         public async Task<ActionResult<IEnumerable<CategoryViewModel>>> GetCategories()
         {
             return await _context.Categories
+                .Where(x => x.isDeleted == false)
                 .Select(x => new CategoryViewModel { Id = x.Id, CategoryName = x.CategoryName})
                 .ToListAsync();
         }
@@ -39,7 +40,7 @@ namespace RookieShopLite.Areas.Admin.Apis
         {
             var category = await _context.Categories.FindAsync(id);
 
-            if (category == null)
+            if (category == null || category.isDeleted == true)
             {
                 return NotFound();
             }
@@ -90,12 +91,13 @@ namespace RookieShopLite.Areas.Admin.Apis
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            if (category == null || category.isDeleted == true)
             {
                 return NotFound();
             }
 
-            _context.Categories.Remove(category);
+            category.isDeleted = true;
+            _context.Categories.Update(category);
             await _context.SaveChangesAsync();
 
             return NoContent();
