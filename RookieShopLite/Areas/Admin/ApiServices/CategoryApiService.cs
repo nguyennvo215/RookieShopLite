@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace RookieShopLite.Areas.Admin.ApiClients
 {
-    public class CategoryApiClient : ICategoryApiClient
+    public class CategoryApiService : ICategoryApiService
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public CategoryApiClient(IHttpClientFactory httpClientFactory)
+        public CategoryApiService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace RookieShopLite.Areas.Admin.ApiClients
 {
-    interface ICategoryApiClient
+    interface ICategoryApiService
     {
         Task<IList<CategoryViewModel>> GetCategories();
     }

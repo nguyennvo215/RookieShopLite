@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace RookieShopLite.Areas.Admin.ApiClients
 {
-    public interface IBrandApiClient
+    public interface IBrandApiService
     {
         Task<IList<BrandViewModel>> GetBrands();
     }

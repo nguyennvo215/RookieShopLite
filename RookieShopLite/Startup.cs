@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RookieShopLite.Areas.Admin.ApiClients;
 using RookieShopLite.Data;
 using System;
 using System.Net;
@@ -59,6 +60,8 @@ namespace RookieShopLite
                     };
                 });
 
+            services.AddTransient<IBrandApiService, BrandApiService>();
+            services.AddTransient<ICategoryApiService, CategoryApiService>();
 
             services.AddControllersWithViews();
         }

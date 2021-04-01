@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace RookieShopLite.Areas.Admin.ApiClients
 {
-    public class BrandApiClient : IBrandApiClient
+    public class BrandApiService : IBrandApiService
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public BrandApiClient(IHttpClientFactory httpClientFactory)
+        public BrandApiService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
