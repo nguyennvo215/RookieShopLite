@@ -10,8 +10,8 @@ using RookieShopLite.Data;
 namespace RookieShopLite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210331070933_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210402035441_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -229,7 +229,11 @@ namespace RookieShopLite.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrandName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -246,6 +250,9 @@ namespace RookieShopLite.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("RetailDetailId")
+                        .HasColumnType("int");
+
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
@@ -256,6 +263,8 @@ namespace RookieShopLite.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RetailDetailId");
 
                     b.ToTable("Carts");
                 });
@@ -268,7 +277,11 @@ namespace RookieShopLite.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CategoryName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -290,6 +303,9 @@ namespace RookieShopLite.Migrations
 
                     b.Property<string>("imgPath")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -324,18 +340,19 @@ namespace RookieShopLite.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("ProductPrice")
+                    b.Property<double>("ProductPriceBefore")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ProductPriceNow")
                         .HasColumnType("float");
 
                     b.Property<string>("ProductShortDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("PromotionPrice")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("isPublished")
+                    b.Property<bool>("isDeleted")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -359,18 +376,10 @@ namespace RookieShopLite.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
-                    b.Property<bool>("isPaid")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CartId");
 
                     b.ToTable("RetailDetails");
                 });
@@ -426,6 +435,13 @@ namespace RookieShopLite.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RookieShopLite.Model.Cart", b =>
+                {
+                    b.HasOne("RookieShopLite.Model.RetailDetail", null)
+                        .WithMany("Cart")
+                        .HasForeignKey("RetailDetailId");
+                });
+
             modelBuilder.Entity("RookieShopLite.Model.Image", b =>
                 {
                     b.HasOne("RookieShopLite.Model.Product", "Product")
@@ -460,17 +476,6 @@ namespace RookieShopLite.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("RookieShopLite.Model.RetailDetail", b =>
-                {
-                    b.HasOne("RookieShopLite.Model.Cart", "Cart")
-                        .WithMany()
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-                });
-
             modelBuilder.Entity("RookieShopLite.Model.Brand", b =>
                 {
                     b.Navigation("Products");
@@ -489,6 +494,11 @@ namespace RookieShopLite.Migrations
             modelBuilder.Entity("RookieShopLite.Model.Product", b =>
                 {
                     b.Navigation("Image");
+                });
+
+            modelBuilder.Entity("RookieShopLite.Model.RetailDetail", b =>
+                {
+                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }

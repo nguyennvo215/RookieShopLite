@@ -37,8 +37,8 @@ namespace RookieShopLite.Data
 
             var products = new Product[]
             {
-                new Product{ ProductName = "IPhone", BrandId = 1, CategoryId = 1, ProductShortDescription = "Iphone", isDeleted = false},
-                new Product{ ProductName = "Samsung", BrandId = 2, CategoryId = 1, ProductShortDescription = "Samsung", isDeleted = false},
+                new Product{ ProductName = "IPhone", BrandId = 2, CategoryId = 1, ProductShortDescription = "Iphone", isDeleted = false, ProductPriceNow = 20000},
+                new Product{ ProductName = "Samsung", BrandId = 1, CategoryId = 1, ProductShortDescription = "Samsung", isDeleted = false, ProductPriceNow = 25000},
             };
 
             context.Products.AddRange(products);
