@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RookieShopLite.Areas.Admin.ApiClients;
 using RookieShopLite.Models;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace RookieShopLite.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IBrandApiService _brandApiService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IBrandApiService brandApiService)
         {
             _logger = logger;
+            _brandApiService = brandApiService;
         }
 
         public IActionResult Index()
