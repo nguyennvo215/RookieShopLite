@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RookieShopLite.Data.Configuration;
 using RookieShopLite.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RookieShopLite.Data
 {
@@ -21,5 +19,11 @@ namespace RookieShopLite.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImages> ProductImages { get; set; }
         public DbSet<RetailDetail> RetailDetails { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new ProductImagesConfiguration());
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
