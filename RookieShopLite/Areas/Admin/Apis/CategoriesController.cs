@@ -60,7 +60,7 @@ namespace RookieShopLite.Areas.Admin.Apis
         {
             var category = await _context.Categories.FindAsync(id);
 
-            if (category == null)
+            if (category == null || category.isDeleted == true)
             {
                 return NotFound();
             }
