@@ -54,11 +54,11 @@ namespace RookieShopLite.Areas.Admin.Apis
 
         [HttpPut("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> PutBrand(int id, BrandCreateRequest brandCreateRequest)
+        public async Task<ActionResult<BrandViewModel>> PutBrand(int id, BrandCreateRequest brandCreateRequest)
         {
             var brand = await _context.Brands.FindAsync(id);
 
-            if (brand == null)
+            if (brand == null || brand.isDeleted == true)
             {
                 return NotFound();
             }
@@ -66,7 +66,13 @@ namespace RookieShopLite.Areas.Admin.Apis
             brand.BrandName = brandCreateRequest.BrandName;
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            var brandViewModel = new BrandViewModel
+            {
+                Id = brand.Id,
+                BrandName = brand.BrandName
+            };
+
+            return brandViewModel;
         }
 
         [HttpPost]
