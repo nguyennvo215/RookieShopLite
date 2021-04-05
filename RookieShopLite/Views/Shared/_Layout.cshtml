@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/normalize.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/animate.css">
-    <link rel="stylesheet" href="css/templatemo-misc.css">
-    <link rel="stylesheet" href="css/templatemo-style.css">
+    <link rel="stylesheet" href="~/css/bootstrap.css">
+    <link rel="stylesheet" href="~/css/normalize.min.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/animate.css">
+    <link rel="stylesheet" href="~/css/templatemo-misc.css">
+    <link rel="stylesheet" href="~/css/templatemo-style.css">
 
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
@@ -26,8 +26,8 @@
                         <div class="top-header-left">
                             <a asp-area="Identity" asp-page="/Account/Register">Sign Up</a>
                             <a asp-area="Identity" asp-page="/Account/Login">Log In</a>
-                        </div> <!-- /.top-header-left -->
-                    </div> <!-- /.col-md-6 -->
+                        </div> 
+                    </div> 
                     <div class="col-md-6 col-sm-6">
                         <div class="social-icons">
                             <ul>
@@ -37,19 +37,19 @@
                                 <li><a href="#" class="fa fa-linkedin"></a></li>
                             </ul>
                             <div class="clearfix"></div>
-                        </div> <!-- /.social-icons -->
-                    </div> <!-- /.col-md-6 -->
-                </div> <!-- /.row -->
-            </div> <!-- /.container -->
-        </div> <!-- /.top-header -->
+                        </div> 
+                    </div> 
+                </div> 
+            </div>
+        </div> 
         <div class="main-header">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4 col-sm-6 col-xs-8">
                         <div class="logo">
                             <h1><a asp-area="" asp-controller="Home" asp-action="Index">Rookie Store</a></h1>
-                        </div> <!-- /.logo -->
-                    </div> <!-- /.col-md-4 -->
+                        </div>
+                    </div> 
                     <div class="col-md-8 col-sm-6 col-xs-4">
                         <div class="main-menu">
                             <a href="#" class="toggle-menu">
@@ -62,11 +62,11 @@
                                 <li><a href="#">Policies</a></li>
                                 <li><a href="#">About</a></li>
                             </ul>
-                        </div> <!-- /.main-menu -->
-                    </div> <!-- /.col-md-8 -->
-                </div> <!-- /.row -->
-            </div> <!-- /.container -->
-        </div> <!-- /.main-header -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
         <div class="main-nav">
             <div class="container">
                 <div class="row">
@@ -77,26 +77,85 @@
                                 <li><a href="product-detail.html">Details</a></li>
                                 <li><a href="contact.html">Contact</a></li>
                             </ul>
-                        </div> <!-- /.list-menu -->
-                    </div> <!-- /.col-md-6 -->
-                </div> <!-- /.row -->
-            </div> <!-- /.container -->
-        </div> <!-- /.main-nav -->
-    </header> <!-- /.site-header -->
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - RookieShopLite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="site-footer">
+        <div class="our-partner">
+        </div> 
+        <div class="main-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="footer-widget">
+                            <h3 class="widget-title">About Us</h3>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, debitis recusandae.
+                            <ul class="follow-us">
+                                <li><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
+                            </ul> 
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="footer-widget">
+                            <h3 class="widget-title">Why Choose Us?</h3>
+                            Kool Store is free responsive eCommerce template provided by templatemo website. You can use this layout for any website.
+                            <br><br>Tempore cum mollitia eveniet laboriosam corporis voluptas earum voluptate. Lorem ipsum dolor sit amet.
+                            <br><br>Credit goes to <a rel="nofollow" href="http://unsplash.com">Unsplash</a> for all images.
+                        </div> 
+                    </div>
+                    <div class="col-md-2">
+                        <div class="footer-widget">
+                            <h3 class="widget-title">Useful Links</h3>
+                            <ul>
+                                <li><a href="#">Our Shop</a></li>
+                                <li><a href="#">Partners</a></li>
+                                <li><a href="#">Gift Cards</a></li>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul>
+                        </div> 
+                    </div>
+                    <div class="col-md-4">
+                        <div class="footer-widget">
+                            <h3 class="widget-title">Our Newsletter</h3>
+                            <div class="newsletter">
+                                <form action="#" method="get">
+                                    <p>Sign up for our regular updates to know when new products are released.</p>
+                                    <input type="text" title="Email" name="email" placeholder="Your Email Here">
+                                    <input type="submit" class="s-button" value="Submit" name="Submit">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div> 
+        </div> 
+        <div class="bottom-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <span>Copyright &copy; 2084 <a href="#">Company Name</a> | Design: templatemo</span>
+                    </div> 
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/vendor/jquery-1.10.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="~/js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
+    <script src="~/js/jquery.easing-1.3.js"></script>
+    <script src="~/js/bootstrap.js"></script>
+    <script src="~/js/plugins.js"></script>
+    <script src="~/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
