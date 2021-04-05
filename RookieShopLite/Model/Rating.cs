@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace RookieShopLite.Model
 {
-    public class Rating
+    public class Rating : BaseEntity
     {
+        public double Rate { get; set; }
+        public int ProductId { get; set; }
     }
 }
