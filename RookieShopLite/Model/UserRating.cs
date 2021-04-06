@@ -10,7 +10,7 @@ namespace RookieShopLite.Model
         public bool isRated { get; set; }
         [Range(0.0, 10.0, ErrorMessage ="The field {0} must be in range from 0 to 10")]
         public double  RatingNumber { get; set; }
-        public virtual IdentityUser AspNetUsers { get; set; }
+        public virtual IdentityUser User { get; set; }
         public virtual Rating Rating { get; set; }
     }
 }
