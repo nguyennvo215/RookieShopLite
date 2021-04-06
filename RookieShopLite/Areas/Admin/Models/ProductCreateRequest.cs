@@ -14,5 +14,6 @@ namespace RookieShopLite.Areas.Admin.Models
         public string ProductFullDescription { get; set; }
         public double ProductPriceNow { get; set; }
         public double ProductPriceBefore { get; set; }
+        public string imgPath { get; set; }
     }
 }
