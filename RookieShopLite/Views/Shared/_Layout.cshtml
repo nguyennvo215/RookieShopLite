@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -24,10 +28,21 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6">
                         <div class="top-header-left">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                            </form>
+                            @*<a asp-area="Identity" asp-page="/Account/Logout">Log Out</a>*@
+                            }
+                            else
+                            {
                             <a asp-area="Identity" asp-page="/Account/Register">Sign Up</a>
                             <a asp-area="Identity" asp-page="/Account/Login">Log In</a>
-                        </div> 
-                    </div> 
+                            }
+                        </div>
+                    </div>
                     <div class="col-md-6 col-sm-6">
                         <div class="social-icons">
                             <ul>
@@ -37,11 +52,11 @@
                                 <li><a href="#" class="fa fa-linkedin"></a></li>
                             </ul>
                             <div class="clearfix"></div>
-                        </div> 
-                    </div> 
-                </div> 
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div> 
+        </div>
         <div class="main-header">
             <div class="container">
                 <div class="row">
@@ -49,14 +64,14 @@
                         <div class="logo">
                             <h1><a asp-area="" asp-controller="Home" asp-action="Index">Rookie Store</a></h1>
                         </div>
-                    </div> 
+                    </div>
                     <div class="col-md-8 col-sm-6 col-xs-4">
                         <div class="main-menu">
                             <a href="#" class="toggle-menu">
                                 <i class="fa fa-bars"></i>
                             </a>
                             <ul class="menu">
-                                <li><a href="#">Home</a></li>
+                                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                                 <li><a href="#">Catalogs</a></li>
                                 <li><a href="#">FAQs</a></li>
                                 <li><a href="#">Policies</a></li>
@@ -66,7 +81,7 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
         <div class="main-nav">
             <div class="container">
                 <div class="row">
@@ -79,7 +94,7 @@
                             </ul>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     </header>
@@ -91,7 +106,7 @@
 
     <footer class="site-footer">
         <div class="our-partner">
-        </div> 
+        </div>
         <div class="main-footer">
             <div class="container">
                 <div class="row">
@@ -102,7 +117,7 @@
                             <ul class="follow-us">
                                 <li><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
                                 <li><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
-                            </ul> 
+                            </ul>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -111,7 +126,7 @@
                             Kool Store is free responsive eCommerce template provided by templatemo website. You can use this layout for any website.
                             <br><br>Tempore cum mollitia eveniet laboriosam corporis voluptas earum voluptate. Lorem ipsum dolor sit amet.
                             <br><br>Credit goes to <a rel="nofollow" href="http://unsplash.com">Unsplash</a> for all images.
-                        </div> 
+                        </div>
                     </div>
                     <div class="col-md-2">
                         <div class="footer-widget">
@@ -123,7 +138,7 @@
                                 <li><a href="#">About Us</a></li>
                                 <li><a href="#">Help</a></li>
                             </ul>
-                        </div> 
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class="footer-widget">
@@ -137,15 +152,15 @@
                             </div>
                         </div>
                     </div>
-                </div> 
-            </div> 
-        </div> 
+                </div>
+            </div>
+        </div>
         <div class="bottom-footer">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <span>Copyright &copy; 2084 <a href="#">Company Name</a> | Design: templatemo</span>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
