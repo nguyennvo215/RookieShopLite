@@ -33,7 +33,8 @@ namespace RookieShopLite.Areas.Admin.Apis
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
         {
             return await _context.Products
-                .Where(x => x.isDeleted == false)
+                .Include("ProductImages")
+                .Where(x => x.isDeleted == false)                
                 .Select(x => new ProductViewModel 
                 { 
                     Id = x.Id,
@@ -43,35 +44,55 @@ namespace RookieShopLite.Areas.Admin.Apis
                     ProductShortDescription = x.ProductShortDescription,
                     ProductFullDescription = x.ProductFullDescription,
                     ProductPriceNow = x.ProductPriceNow,
-                    ProductPriceBefore = x.ProductPriceBefore
+                    ProductPriceBefore = x.ProductPriceBefore,
+                    images = x.ProductImages.Select(u => u.imgPath).ToList()
                 })
                 .ToListAsync();
         }
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<ProductViewModel>> GetProduct(int id)
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            //var product = await _context.Products.FindAsync(id);
 
-            if (product == null || product.isDeleted == true)
-            {
-                return NotFound();
-            }
+            //if (product == null || product.isDeleted == true)
+            //{
+            //    return NotFound();
+            //}
 
-            var productViewModel = new ProductViewModel
-            {
-                Id = product.Id,
-                ProductName = product.ProductName,
-                BrandId = product.BrandId,
-                CategoryId = product.CategoryId,
-                ProductShortDescription = product.ProductShortDescription,
-                ProductFullDescription = product.ProductFullDescription,
-                ProductPriceNow = product.ProductPriceNow,
-                ProductPriceBefore = product.ProductPriceBefore
-            };
+            //var productViewModel = new ProductViewModel
+            //{
+            //    Id = product.Id,
+            //    ProductName = product.ProductName,
+            //    BrandId = product.BrandId,
+            //    CategoryId = product.CategoryId,
+            //    ProductShortDescription = product.ProductShortDescription,
+            //    ProductFullDescription = product.ProductFullDescription,
+            //    ProductPriceNow = product.ProductPriceNow,
+            //    ProductPriceBefore = product.ProductPriceBefore,
+            //    images = product.ProductImages.Select(u => u.imgPath).ToList()
+            //};
 
-            return productViewModel;
+            //return productViewModel;
+
+            return await _context.Products
+                .Include("ProductImages")
+                .Where(x => x.isDeleted == false && x.Id == id)
+                .Select(x => new ProductViewModel
+                {
+                    Id = x.Id,
+                    ProductName = x.ProductName,
+                    BrandId = x.BrandId,
+                    CategoryId = x.CategoryId,
+                    ProductShortDescription = x.ProductShortDescription,
+                    ProductFullDescription = x.ProductFullDescription,
+                    ProductPriceNow = x.ProductPriceNow,
+                    ProductPriceBefore = x.ProductPriceBefore,
+                    images = x.ProductImages.Select(u => u.imgPath).ToList()
+                })
+                .ToListAsync();
+
         }
 
         [HttpPut("{id}")]
@@ -122,7 +143,7 @@ namespace RookieShopLite.Areas.Admin.Apis
                 productCreateRequest.imgPath = "";
             }
 
-            var image = new Image
+            var image = new ProductImage
             {
                 imgPath = productCreateRequest.imgPath,
                 ProductId = product.Id,
@@ -194,7 +215,7 @@ namespace RookieShopLite.Areas.Admin.Apis
                 productCreateRequest.imgPath = "";
             }
 
-            var image = new Image
+            var image = new ProductImage
             {
                 imgPath = productCreateRequest.imgPath,
                 ProductId = product.Id,
