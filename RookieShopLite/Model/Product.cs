@@ -8,7 +8,7 @@ namespace RookieShopLite.Model
     {
         public Product()
         {
-            Images = new HashSet<Image>();
+            ProductImages = new HashSet<ProductImage>();
         }
         public int BrandId { get; set; }
         public int CategoryId { get; set; }
@@ -23,6 +23,6 @@ namespace RookieShopLite.Model
         public string AddedBy { get; set; }
         public virtual Category Category { get; set; }
         public virtual Brand Brand { get; set; }
-        public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
     }
 }

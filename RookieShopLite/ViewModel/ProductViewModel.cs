@@ -1,4 +1,6 @@
-﻿namespace RookieShopLite.ViewModel
+﻿using System.Collections.Generic;
+
+namespace RookieShopLite.ViewModel
 {
     public class ProductViewModel
     {
@@ -10,6 +12,7 @@
         public string ProductFullDescription { get; set; }
         public double ProductPriceNow { get; set; }
         public double ProductPriceBefore { get; set; }
+        public IList<string> images { get; set; }
         public bool isDeleted { get; set; }
     }
 }

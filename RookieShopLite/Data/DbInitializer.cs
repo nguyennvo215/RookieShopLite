@@ -41,10 +41,10 @@ namespace RookieShopLite.Data
             context.Products.AddRange(products);
             context.SaveChanges();
 
-            var images = new Image[] 
+            var images = new ProductImage[] 
             {
-                new Image { ProductId = 1, imgPath = "products/1.jpg", isDeleted = false },
-                new Image { ProductId = 2, imgPath = "products/2.jpg", isDeleted = false }
+                new ProductImage { ProductId = 1, imgPath = "products/1.jpg", isDeleted = false },
+                new ProductImage { ProductId = 2, imgPath = "products/2.jpg", isDeleted = false }
             };
 
             context.Images.AddRange(images);
