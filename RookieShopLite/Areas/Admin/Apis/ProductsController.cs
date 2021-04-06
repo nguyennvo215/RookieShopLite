@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using RookieShopLite.Model;
 using RookieShopLite.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,10 +20,12 @@ namespace RookieShopLite.Areas.Admin.Apis
     public class ProductsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
@@ -89,6 +93,44 @@ namespace RookieShopLite.Areas.Admin.Apis
             product.BrandId = productCreateRequest.BrandId;
             product.AddedDate = DateTime.Now;
             product.AddedBy = HttpContext.User.Identity.Name;
+            product.isDeleted = false;
+            await _context.SaveChangesAsync();
+
+            var files = HttpContext.Request.Form.Files;
+            if (files != null) //check if there is uploaded img
+            {
+                foreach (var Image in files)
+                {
+                    if (Image != null && Image.Length > 0)
+                    {
+                        var file = Image;
+                        var uploads = Path.Combine(_hostEnvironment.WebRootPath, "img");
+                        if (file.Length > 0)
+                        {
+                            var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
+                            using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
+                            {
+                                await file.CopyToAsync(fileStream);
+                                productCreateRequest.imgPath = fileName;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                productCreateRequest.imgPath = "";
+            }
+
+            var image = new Image
+            {
+                imgPath = productCreateRequest.imgPath,
+                ProductId = product.Id,
+                AddedDate = DateTime.Now,
+                isDeleted = false
+            };
+
+            _context.Images.Add(image);
             await _context.SaveChangesAsync();
 
             var productViewModel = new ProductViewModel
@@ -119,11 +161,48 @@ namespace RookieShopLite.Areas.Admin.Apis
                 CategoryId = productCreateRequest.CategoryId,
                 BrandId = productCreateRequest.BrandId,
                 AddedDate = DateTime.Now,
-                AddedBy = HttpContext.User.Identity.Name
-                
+                AddedBy = HttpContext.User.Identity.Name,
+                isDeleted = false                
             };
 
             _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            var files = HttpContext.Request.Form.Files;
+            if (files != null) //check if there is uploaded img
+            {
+                foreach (var Image in files)
+                {
+                    if (Image != null && Image.Length > 0)
+                    {
+                        var file = Image;
+                        var uploads = Path.Combine(_hostEnvironment.WebRootPath, "img");
+                        if (file.Length > 0)
+                        {
+                            var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
+                            using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
+                            {
+                                await file.CopyToAsync(fileStream);
+                                productCreateRequest.imgPath = fileName;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                productCreateRequest.imgPath = "";
+            }
+
+            var image = new Image
+            {
+                imgPath = productCreateRequest.imgPath,
+                ProductId = product.Id,
+                AddedDate = DateTime.Now,
+                isDeleted = false
+            };
+
+            _context.Images.Add(image);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBrand", new { id = product.Id },
