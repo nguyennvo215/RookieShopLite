@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RookieShopLite.Model
 {
-    public class Image : BaseEntity
+    public class ProductImage : BaseEntity
     {
         public int ProductId { get; set; }
         public string imgPath { get; set; }
