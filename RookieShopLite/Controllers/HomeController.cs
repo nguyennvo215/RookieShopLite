@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RookieShopLite.Areas.Admin.ApiServices.Product;
-using RookieShopLite.Data;
-using RookieShopLite.Model;
 using RookieShopLite.Models;
-using RookieShopLite.ViewModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RookieShopLite.Controllers

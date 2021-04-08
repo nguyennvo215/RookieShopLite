@@ -10,8 +10,8 @@ namespace RookieShopLite.ViewModel
         public string ProductName { get; set; }
         public string ProductShortDescription { get; set; }
         public string ProductFullDescription { get; set; }
-        public double ProductPriceNow { get; set; }
-        public double ProductPriceBefore { get; set; }
+        public decimal ProductPriceNow { get; set; }
+        public decimal ProductPriceBefore { get; set; }
         public List<string> images { get; set; }
         public bool isDeleted { get; set; }
     }

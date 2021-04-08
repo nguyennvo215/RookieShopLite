@@ -12,8 +12,8 @@ namespace RookieShopLite.Areas.Admin.Models
         public int CategoryId { get; set; }
         public string ProductShortDescription { get; set; }
         public string ProductFullDescription { get; set; }
-        public double ProductPriceNow { get; set; }
-        public double ProductPriceBefore { get; set; }
+        public decimal ProductPriceNow { get; set; }
+        public decimal ProductPriceBefore { get; set; }
         public string imgPath { get; set; }
     }
 }
