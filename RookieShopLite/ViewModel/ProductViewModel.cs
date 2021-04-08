@@ -12,7 +12,7 @@ namespace RookieShopLite.ViewModel
         public string ProductFullDescription { get; set; }
         public double ProductPriceNow { get; set; }
         public double ProductPriceBefore { get; set; }
-        public IList<string> images { get; set; }
+        public List<string> images { get; set; }
         public bool isDeleted { get; set; }
     }
 }
