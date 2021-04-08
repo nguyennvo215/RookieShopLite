@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace RookieShopLite.Areas.Admin.ApiServices.Product
 {
-    interface IProductApiService
+    public interface IProductApiService
     {
         Task<IList<ProductViewModel>> GetProducts();
         Task<IList<ProductViewModel>> GetProduct(int id);
