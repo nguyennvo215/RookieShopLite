@@ -54,12 +54,12 @@ namespace RookieShopLite.Areas.Admin.Apis
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProduct(int id)
         {
-            //var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
 
-            //if (product == null || product.isDeleted == true)
-            //{
-            //    return NotFound();
-            //}
+            if (product == null || product.isDeleted == true)
+            {
+                return NotFound();
+            }
 
             //var productViewModel = new ProductViewModel
             //{
