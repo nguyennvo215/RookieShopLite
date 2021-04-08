@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
-namespace RookieShopLite
+namespace RookieShopLite.Model
 {
     public class PaginatedList<T> : List<T>
     {
