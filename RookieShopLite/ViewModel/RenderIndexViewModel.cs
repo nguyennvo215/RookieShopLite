@@ -5,7 +5,7 @@ namespace RookieShopLite.ViewModel
 {
     public class RenderIndexViewModel
     {
-        public List<Product> Products { get; set; }
+        public List<ProductViewModel> Products { get; set; }
         public string SearchString { get; set; }
     }
 }
