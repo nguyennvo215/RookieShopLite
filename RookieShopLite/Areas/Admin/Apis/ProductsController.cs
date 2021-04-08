@@ -61,21 +61,6 @@ namespace RookieShopLite.Areas.Admin.Apis
                 return NotFound();
             }
 
-            //var productViewModel = new ProductViewModel
-            //{
-            //    Id = product.Id,
-            //    ProductName = product.ProductName,
-            //    BrandId = product.BrandId,
-            //    CategoryId = product.CategoryId,
-            //    ProductShortDescription = product.ProductShortDescription,
-            //    ProductFullDescription = product.ProductFullDescription,
-            //    ProductPriceNow = product.ProductPriceNow,
-            //    ProductPriceBefore = product.ProductPriceBefore,
-            //    images = product.ProductImages.Select(u => u.imgPath).ToList()
-            //};
-
-            //return productViewModel;
-
             return await _context.Products
                 .Include("ProductImages")
                 .Where(x => x.isDeleted == false && x.Id == id)
