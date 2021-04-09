@@ -454,20 +454,19 @@ h6 {
         .product-content span.price {
             margin-top: 10px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 800;
         }
 
         .product-content span.price-before {
             color: black;
-
-            margin-top: 10px;
-            font-size: 10px;
+            margin-top: 5px;
+            font-size: 13px;
             font-weight: 600;
         }
 
 .product-thumb img {
-    width: 100%;
-    height: 100%;
+    width: 250px;
+    height: 250px;
 }
 
 .product-item-1 {
