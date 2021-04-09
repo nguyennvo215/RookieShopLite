@@ -34,8 +34,8 @@ namespace RookieShopLite.Data
 
             var products = new Product[]
             {
-                new Product{ ProductName = "IPhone", BrandId = 2, CategoryId = 1, ProductShortDescription = "Iphone", isDeleted = false, ProductPriceNow = 20000},
-                new Product{ ProductName = "Samsung", BrandId = 1, CategoryId = 1, ProductShortDescription = "Samsung", isDeleted = false, ProductPriceNow = 25000}
+                new Product{ ProductName = "IPhone", BrandId = 2, CategoryId = 1, ProductShortDescription = "Iphone", isDeleted = false, ProductPriceNow = 200},
+                new Product{ ProductName = "Samsung", BrandId = 1, CategoryId = 1, ProductShortDescription = "Samsung", isDeleted = false, ProductPriceNow = 250, ProductPriceBefore = 350}
             };
 
             context.Products.AddRange(products);
@@ -44,7 +44,8 @@ namespace RookieShopLite.Data
             var images = new ProductImage[] 
             {
                 new ProductImage { ProductId = 1, imgPath = "products/1.jpg", isDeleted = false },
-                new ProductImage { ProductId = 2, imgPath = "products/2.jpg", isDeleted = false }
+                new ProductImage { ProductId = 2, imgPath = "products/2.jpg", isDeleted = false },
+                new ProductImage { ProductId = 1, imgPath = "products/3.jpg", isDeleted = false }
             };
 
             context.Images.AddRange(images);
