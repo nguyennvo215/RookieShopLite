@@ -29,6 +29,12 @@ namespace RookieShopLite.Controllers
             return View();
         }
 
+        public async Task<IActionResult> ProductView(int id)
+        {
+            var product = await _product.GetProduct(id);
+            return View(product);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
