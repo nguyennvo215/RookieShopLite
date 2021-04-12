@@ -11,7 +11,7 @@ namespace RookieShopLite.Model
             Products = new HashSet<Product>();
         }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public double TotalPrice { get; set; }
         public DateTime AddedDate { get; set; }
         public bool isCheckedOut { get; set; }
