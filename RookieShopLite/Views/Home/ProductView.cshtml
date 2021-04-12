@@ -9,9 +9,13 @@
     { 
         <div class="row">
             <div class="col-md-8">
-                <div class="product-image">
-                    @{ string image = product.images.FirstOrDefault(); }
-                    <img src="~/images/@Html.DisplayFor(modelItem => image)" alt="">
+                <div class="product-image w3-content w3-display-container">
+                    @foreach (var image in product.images)
+                    {
+                        <img class="mySlides" src="~/images/@Html.DisplayFor(modelItem => image)" alt="">
+                    }
+                    <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                    <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
                 </div> <!-- /.product-image -->
                 <div class="product-information">
                     <h2>@product.ProductName</h2>
@@ -78,3 +82,23 @@
                         }
     </div> <!-- /.container -->
 </div> <!-- /.content-section -->
+
+<script>
+    var slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function showDivs(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        if (n > x.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = x.length }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        x[slideIndex - 1].style.display = "block";
+    }
+</script>
