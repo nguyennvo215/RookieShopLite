@@ -10,7 +10,7 @@ namespace RookieShopLite.Controllers
     public class CartController : Controller
     {
         // GET: CartController
-        public ActionResult Index()
+        public ActionResult AddToSession()
         {
             return View();
         }
