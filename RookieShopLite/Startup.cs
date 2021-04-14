@@ -29,6 +29,14 @@ namespace RookieShopLite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession(cfg =>
+            {
+                cfg.Cookie.HttpOnly = true;
+                cfg.Cookie.IsEssential = true;
+                cfg.IdleTimeout = new TimeSpan(0, 30, 0);
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -89,6 +97,7 @@ namespace RookieShopLite
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();
