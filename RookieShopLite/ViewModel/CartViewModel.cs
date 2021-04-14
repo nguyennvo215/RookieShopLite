@@ -7,6 +7,7 @@ namespace RookieShopLite.ViewModel
 {
     public class CartViewModel
     {
+        public int Id { get; set; }
         public int UserId { get; set; }
         public List<CartProductViewModel> ProductLists { get; set; }
     }
