@@ -7,6 +7,7 @@ namespace RookieShopLite.Model
     {
         public string UserId { get; set; }
         public int RatingId { get; set; }
+        public int ProductId { get; set; }
         public bool isRated { get; set; }
         [Range(0.0, 10.0, ErrorMessage ="The field {0} must be in range from 0 to 10")]
         public double  RatingNumber { get; set; }
