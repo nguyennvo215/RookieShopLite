@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace RookieShopLite.Areas.Admin.ApiServices.Cart
 {
-    public class ICartApiService
+    public interface ICartApiService
     {
     }
 }
