@@ -17,7 +17,6 @@ namespace RookieShopLite.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductImage> Images { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
         public DbSet<UserRating> UserRatings { get; set; }
         public DbSet<RetailDetail> RetailDetails { get; set; }
     }
