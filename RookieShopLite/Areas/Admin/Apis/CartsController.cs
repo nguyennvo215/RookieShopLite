@@ -28,12 +28,13 @@ namespace RookieShopLite.Areas.Admin.Apis
 
         public async Task<ActionResult<IEnumerable<CartViewModel>>> GetCartHistory()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //var getCart = from s in _context.Carts
             //              .Where(c => c.UserId == ClaimTypes.Name && c.isCheckedOut == true)
             //              select s;
             return await _context.Carts
                 .Include("CartProduct")
-                .Where(c => c.UserId == ClaimTypes.NameIdentifier && c.isCheckedOut == true)
+                .Where(c => c.UserId == userId && c.isCheckedOut == true)
                 .Select(x => new CartViewModel
                 {
                     Id = x.Id,
@@ -51,13 +52,14 @@ namespace RookieShopLite.Areas.Admin.Apis
         }
 
         public async Task<ActionResult<CartViewModel>> GetCurrentCart()
-        {            
-            var getCart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == ClaimTypes.NameIdentifier && x.isCheckedOut == false);
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var getCart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId && x.isCheckedOut == false);
             if(getCart == null)
             {
                 var newCart = new Cart
                 {
-                    UserId = ClaimTypes.NameIdentifier,
+                    UserId = userId,
                     AddedDate = DateTime.Now,
                     isCheckedOut = false
                 };
@@ -77,7 +79,7 @@ namespace RookieShopLite.Areas.Admin.Apis
                 var cart = new CartViewModel
                 {
                     Id = getCart.Id,
-                    UserId = ClaimTypes.NameIdentifier,
+                    UserId = userId,
                     ProductLists = getCart.Products.Select(p => new CartProductViewModel
                     {
                         CartId = getCart.Id,
