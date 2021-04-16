@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RookieShopLite.Areas.Admin.ApiServices.Brand;
+using RookieShopLite.Areas.Admin.ApiServices.Cart;
 using RookieShopLite.Areas.Admin.ApiServices.Category;
 using RookieShopLite.Areas.Admin.ApiServices.Product;
 using RookieShopLite.Data;
@@ -73,6 +74,7 @@ namespace RookieShopLite
             services.AddTransient<IBrandApiService, BrandApiService>();
             services.AddTransient<ICategoryApiService, CategoryApiService>();
             services.AddTransient<IProductApiService, ProductApiService>();
+            services.AddTransient<ICartApiService, CartApiService>();
 
             services.AddControllersWithViews();
         }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RookieShopLite.Model
 {
-    public class UserRating
+    public class UserRating : BaseEntity
     {
         public string UserId { get; set; }
         public int ProductId { get; set; }
