@@ -7,5 +7,7 @@ namespace RookieShopLite.Areas.Admin.ApiServices.CartProduct
 {
     public interface ICartProductApiService
     {
+        Task AddProductToCart(int id);
+        Task DeleteProductInCart(int id);
     }
 }

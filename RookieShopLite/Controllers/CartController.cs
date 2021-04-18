@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using RookieShopLite.Model;
 using RookieShopLite.Areas.Admin.ApiServices.Product;
 using RookieShopLite.Areas.Admin.ApiServices.Cart;
+using RookieShopLite.Areas.Admin.ApiServices.CartProduct;
 
 namespace RookieShopLite.Controllers
 {
@@ -18,19 +19,21 @@ namespace RookieShopLite.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IProductApiService _product;
+        private readonly ICartProductApiService _cartProduct;
         private readonly ICartApiService _cart;
 
-        public CartController(ApplicationDbContext context, IProductApiService product, ICartApiService cart)
+        public CartController(ApplicationDbContext context, IProductApiService product, ICartProductApiService cartProduct, ICartApiService cart)
         {
             _context = context;
             _product = product;
+            _cartProduct = cartProduct;
             _cart = cart;
         }
 
         [HttpPost("{Id}")]
         public async Task<IActionResult> AddToCart(int id)
         {
-            await _cart.AddToCart(id);
+            await _cartProduct.AddProductToCart(id);
             string referer = Request.Headers["Referer"].ToString();
             return RedirectToAction(referer);
         }
