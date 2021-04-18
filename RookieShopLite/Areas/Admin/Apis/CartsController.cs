@@ -26,31 +26,35 @@ namespace RookieShopLite.Areas.Admin.Apis
             _product = product;
         }
 
-        public async Task<ActionResult<IEnumerable<CartViewModel>>> GetCartHistory()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //var getCart = from s in _context.Carts
-            //              .Where(c => c.UserId == ClaimTypes.Name && c.isCheckedOut == true)
-            //              select s;
-            return await _context.Carts
-                .Include("CartProduct")
-                .Where(c => c.UserId == userId && c.isCheckedOut == true)
-                .Select(x => new CartViewModel
-                {
-                    Id = x.Id,
-                    UserId = x.UserId,
-                    ProductLists = x.Products.Select(p => new CartProductViewModel
-                    {
-                        CartId = x.Id,
-                        Id = p.Id,
-                        imgPath = p.ProductImages.ToString(),
-                        ProductName = p.ProductName,
-                        ProductPriceNow = p.ProductPriceNow,
-                        ProductPriceBefore = p.ProductPriceBefore
-                    }).ToList()
-                }).ToListAsync();
-        }
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<ActionResult<IEnumerable<CartViewModel>>> GetCartHistory()
+        //{
+        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    //var getCart = from s in _context.Carts
+        //    //              .Where(c => c.UserId == ClaimTypes.Name && c.isCheckedOut == true)
+        //    //              select s;
+        //    return await _context.Carts
+        //        .Include("CartProduct")
+        //        .Where(c => c.UserId == userId && c.isCheckedOut == true)
+        //        .Select(x => new CartViewModel
+        //        {
+        //            Id = x.Id,
+        //            UserId = x.UserId,
+        //            ProductLists = x.Products.Select(p => new CartProductViewModel
+        //            {
+        //                CartId = x.Id,
+        //                Id = p.Id,
+        //                imgPath = p.ProductImages.ToString(),
+        //                ProductName = p.ProductName,
+        //                ProductPriceNow = p.ProductPriceNow,
+        //                ProductPriceBefore = p.ProductPriceBefore
+        //            }).ToList()
+        //        }).ToListAsync();
+        //}
 
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<CartViewModel>> GetCurrentCart()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -76,7 +80,7 @@ namespace RookieShopLite.Areas.Admin.Apis
             } 
             else
             {
-                var cart = new CartViewModel
+                return new CartViewModel
                 {
                     Id = getCart.Id,
                     UserId = userId,
@@ -84,40 +88,14 @@ namespace RookieShopLite.Areas.Admin.Apis
                     {
                         CartId = getCart.Id,
                         Id = p.Id,
-                        imgPath = p.ProductImages.ToString(),
+                        imgPath = p.ProductImages.FirstOrDefault().ToString(),
                         ProductName = p.ProductName,
                         ProductPriceNow = p.ProductPriceNow,
                         ProductPriceBefore = p.ProductPriceBefore
                     }).ToList()
                 };
-                return cart;
             }            
             
-        }
-
-        [HttpPost("{Id}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> AddToCart(int id)
-        {
-            var product = await _product.GetProduct(id);
-            var cart = GetCurrentCart();
-
-            foreach (var p in product)
-            {
-                var cartProduct = new CartProduct
-                {
-                    CartId = cart.Id,
-                    ProductName = p.ProductName,
-                    Id = p.Id,
-                    ProductPriceNow = p.ProductPriceNow,
-                    ProductPriceBefore = p.ProductPriceBefore,
-                    imgPath = p.images.FirstOrDefault().ToString(),
-                };
-
-                _context.CartProducts.Add(cartProduct);
-                await _context.SaveChangesAsync();
-            }
-            return NoContent();
         }
 
         [HttpDelete("{id}")]

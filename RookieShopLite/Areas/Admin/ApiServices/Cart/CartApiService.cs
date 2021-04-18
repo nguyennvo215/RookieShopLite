@@ -28,6 +28,13 @@ namespace RookieShopLite.Areas.Admin.ApiServices.Cart
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task CheckOutCart(int id)
+        {
+            var httpClient = _httpClientFactory.CreateClient("local");
+            var response = await httpClient.DeleteAsync("api/carts" + $"/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+
         public async Task<IList<CartViewModel>> GetCartHistory()
         {
             var httpClient = _httpClientFactory.CreateClient("local");

@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using RookieShopLite.Model;
 using RookieShopLite.Areas.Admin.ApiServices.Product;
+using RookieShopLite.Areas.Admin.ApiServices.Cart;
 
 namespace RookieShopLite.Controllers
 {
@@ -17,64 +18,26 @@ namespace RookieShopLite.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IProductApiService _product;
+        private readonly ICartApiService _cart;
 
-        public CartController(ApplicationDbContext context, IProductApiService product)
+        public CartController(ApplicationDbContext context, IProductApiService product, ICartApiService cart)
         {
             _context = context;
             _product = product;
+            _cart = cart;
         }
 
         [HttpPost("{Id}")]
-        public async Task<IActionResult> AddToCart(int Id)
+        public async Task<IActionResult> AddToCart(int id)
         {
-            var product = await _product.GetProduct(Id);
-            var getCart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == ClaimTypes.NameIdentifier && x.isCheckedOut == false);
-            if (getCart == null )
-            {
-                var cart = new Cart
-                {
-                    UserId = ClaimTypes.NameIdentifier,
-                    AddedDate = DateTime.Now,
-                    isCheckedOut = false
-                };
-
-                _context.Carts.Add(cart);
-                await _context.SaveChangesAsync();
-
-                foreach (var p in product)
-                {
-                    var cartProduct = new CartProduct
-                    {
-                        CartId = cart.Id,
-                        ProductName = p.ProductName,
-                        ProductPriceBefore = p.ProductPriceBefore,
-                        ProductPriceAfter = p.ProductPriceNow,
-                        imgPath = p.images.FirstOrDefault(),
-                    };
-                    _context.CartProducts.Add(cartProduct);
-                    await _context.SaveChangesAsync();
-                }
-            }
-            foreach (var p in product)
-            {
-                var cartProduct = new CartProduct
-                {
-                    CartId = getCart.Id,
-                    ProductName = p.ProductName,
-                    ProductPriceBefore = p.ProductPriceBefore,
-                    ProductPriceAfter = p.ProductPriceNow,
-                    imgPath = p.images.FirstOrDefault(),
-                };
-                _context.CartProducts.Add(cartProduct);
-                await _context.SaveChangesAsync();
-            }
-            return NoContent();
+            await _cart.AddToCart(id);
+            string referer = Request.Headers["Referer"].ToString();
+            return RedirectToAction(referer);
         }
 
-        // GET: CartController/Details/5
-        public async Task<ActionResult<CartViewModel>> Details(int id)
+        public async Task<ActionResult<CartViewModel>> CartDetails()
         {
-            return View();
+            return await _cart.GetCurrentCart();
         }
 
         // GET: CartController/Create

@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using RookieShopLite.ViewModel;
-using System;
+﻿using RookieShopLite.ViewModel;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RookieShopLite.Areas.Admin.ApiServices.Cart
@@ -11,6 +8,6 @@ namespace RookieShopLite.Areas.Admin.ApiServices.Cart
     {
         Task<IList<CartViewModel>> GetCartHistory();
         Task<CartViewModel> GetCurrentCart();
-        Task AddToCart(int id);
+        Task CheckOutCart(int id);
     }
 }
