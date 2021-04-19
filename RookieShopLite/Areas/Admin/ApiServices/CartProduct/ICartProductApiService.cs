@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using RookieShopLite.ViewModel;
 using System.Threading.Tasks;
 
 namespace RookieShopLite.Areas.Admin.ApiServices.CartProduct
@@ -9,5 +7,6 @@ namespace RookieShopLite.Areas.Admin.ApiServices.CartProduct
     {
         Task AddProductToCart(int id);
         Task DeleteProductInCart(int id);
+        Task<CartViewModel> GetCurrentCart();
     }
 }

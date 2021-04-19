@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using RookieShopLite.ViewModel;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,9 +27,21 @@ namespace RookieShopLite.Areas.Admin.ApiServices.CartProduct
             response.EnsureSuccessStatusCode();
         }
 
-        public Task DeleteProductInCart(int id)
+        public async Task DeleteProductInCart(int id)
         {
-            throw new NotImplementedException();
+            var httpClient = _httpClientFactory.CreateClient("local");
+            var content = JsonConvert.SerializeObject(id);
+            var httpContent = new StringContent(content.ToString(), Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync("api/cartproducts", httpContent);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<CartViewModel> GetCurrentCart()
+        {
+            var httpClient = _httpClientFactory.CreateClient("local");
+            var response = await httpClient.GetAsync("api/cartproducts");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<CartViewModel>();
         }
     }
 }
