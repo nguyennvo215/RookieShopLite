@@ -2,13 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using RookieShopLite.Data;
 using RookieShopLite.ViewModel;
-using System.Linq;
-using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-using RookieShopLite.Model;
 using RookieShopLite.Areas.Admin.ApiServices.Product;
 using RookieShopLite.Areas.Admin.ApiServices.Cart;
 using RookieShopLite.Areas.Admin.ApiServices.CartProduct;
@@ -30,17 +25,17 @@ namespace RookieShopLite.Controllers
             _cart = cart;
         }
 
-        [HttpPost("{Id}")]
+        [HttpPost]
         public async Task<IActionResult> AddToCart(int id)
         {
             await _cartProduct.AddProductToCart(id);
-            string referer = Request.Headers["Referer"].ToString();
-            return RedirectToAction(referer);
+            return RedirectToAction(nameof(CartDetail));
         }
 
-        public async Task<ActionResult<CartViewModel>> CartDetails()
+        public async Task<ActionResult<CartViewModel>> CartDetail()
         {
-            return await _cart.GetCurrentCart();
+            var cart = await _cartProduct.GetCurrentCart();
+            return View(cart);
         }
 
         // GET: CartController/Create

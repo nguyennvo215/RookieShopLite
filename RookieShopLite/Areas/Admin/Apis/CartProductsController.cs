@@ -73,7 +73,7 @@ namespace RookieShopLite.Areas.Admin.Apis
 
         }
 
-        [HttpPost("{Id}")]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> AddProductToCart(int id)
         {

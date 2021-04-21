@@ -3,5 +3,42 @@
     ViewData["Title"] = "CartDetail";
 }
 
-<h1>CartDetail</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.title)*@Name
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.content)*@Price
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.imageName)*@OldPrice
+            </th>
+            <th>
+                @* @Html.DisplayNameFor(model => model.user)*@Image
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProductLists)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPriceNow)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPriceBefore)
+            </td>
+            <td>
+                <img src="~/img/@Html.DisplayFor(modelItem=>item.imgPath)" width="200" height="121" alt="Image">
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
 

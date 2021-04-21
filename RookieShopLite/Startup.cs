@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RookieShopLite.Areas.Admin.ApiServices.Brand;
 using RookieShopLite.Areas.Admin.ApiServices.Cart;
+using RookieShopLite.Areas.Admin.ApiServices.CartProduct;
 using RookieShopLite.Areas.Admin.ApiServices.Category;
 using RookieShopLite.Areas.Admin.ApiServices.Product;
 using RookieShopLite.Data;
@@ -30,6 +31,14 @@ namespace RookieShopLite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+
             services.AddDistributedMemoryCache();
             services.AddSession(cfg =>
             {
@@ -54,7 +63,7 @@ namespace RookieShopLite
             services.AddHttpContextAccessor();
             services.AddHttpClient("local", (configureClient) =>
             {
-                configureClient.BaseAddress = new Uri("https://localhost:44305/");
+                configureClient.BaseAddress = new Uri(Configuration.GetValue<string>("Uri:LocalUri"));
             })
                 .ConfigurePrimaryHttpMessageHandler((serviceProvider) =>
                 {
@@ -63,7 +72,7 @@ namespace RookieShopLite
                     if (httpContext.Request.Cookies.ContainsKey(".AspNetCore.Identity.Application"))
                     {
                         var identityCookieValue = httpContext.Request.Cookies[".AspNetCore.Identity.Application"];
-                        cookieContainer.Add(new Uri("https://localhost:44305/"), new Cookie(".AspNetCore.Identity.Application", identityCookieValue));
+                        cookieContainer.Add(new Uri(Configuration.GetValue<string>("Uri:LocalUri")), new Cookie(".AspNetCore.Identity.Application", identityCookieValue));
                     }
                     return new HttpClientHandler()
                     {
@@ -75,6 +84,7 @@ namespace RookieShopLite
             services.AddTransient<ICategoryApiService, CategoryApiService>();
             services.AddTransient<IProductApiService, ProductApiService>();
             services.AddTransient<ICartApiService, CartApiService>();
+            services.AddTransient<ICartProductApiService, CartProductApiService>();
 
             services.AddControllersWithViews();
         }
@@ -87,7 +97,6 @@ namespace RookieShopLite
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RookieShop v1"));
             }
             else
             {
@@ -99,6 +108,9 @@ namespace RookieShopLite
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RookieShop v1"));
+
+            app.UseCors("AllowAnyOrigin");
             app.UseRouting();
             app.UseSession();
 
