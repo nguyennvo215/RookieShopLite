@@ -8,9 +8,9 @@ import {
 } from "react-router-dom";
 import './App.css';
 import axios from 'axios';
-import SideBar from './Components/SideBar';
 import Category from './Containers/Category';
 import Home from './Containers/Home';
+import Brand from './Containers/Brand';
 import NavBar from './Components/NavBar';
 import { LOCAL_HOST } from "./Constants/env";
 
@@ -36,6 +36,9 @@ return (
       </Route>
       <Route exact path="/category">
         <Category />
+      </Route>
+      <Route exact path="/brand">
+        <Brand />
       </Route>
     </Switch>
   </Router>

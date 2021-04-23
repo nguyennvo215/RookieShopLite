@@ -23,7 +23,7 @@ export default function TopMenu() {
 
     return (
         <Navbar color="light" light expand="md">
-            <NavbarBrand><Link to='/'>Home</Link></NavbarBrand>
+            <NavbarBrand><Link to='/'>Product</Link></NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
                 <Nav className="mr-auto" navbar>
@@ -31,19 +31,7 @@ export default function TopMenu() {
                         <NavLink ><Link to='/brand'>Brand</Link></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink ><Link to='/cart'>Cart</Link></NavLink>
-                    </NavItem>
-                    <NavItem>
                         <NavLink ><Link to='/category'>Category</Link></NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink ><Link to='/order'>Order</Link></NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink ><Link to='/product'>Product</Link></NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink ><Link to='/rate'>Rate</Link></NavLink>
                     </NavItem>
                 </Nav>
                 <NavbarText>Simple Text</NavbarText>
