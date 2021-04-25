@@ -10,8 +10,8 @@ using RookieShopLite.Data;
 namespace RookieShopLite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210415085006_Migration150421")]
-    partial class Migration150421
+    [Migration("20210425130504_Migration250421")]
+    partial class Migration250421
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -255,7 +255,7 @@ namespace RookieShopLite.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("isCheckedOut")
                         .HasColumnType("bit");
@@ -263,6 +263,8 @@ namespace RookieShopLite.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("RetailDetailId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -331,9 +333,6 @@ namespace RookieShopLite.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -359,8 +358,6 @@ namespace RookieShopLite.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
-
-                    b.HasIndex("CartId");
 
                     b.HasIndex("CategoryId");
 
@@ -493,12 +490,20 @@ namespace RookieShopLite.Migrations
                     b.HasOne("RookieShopLite.Model.RetailDetail", null)
                         .WithMany("Cart")
                         .HasForeignKey("RetailDetailId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "user")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("RookieShopLite.Model.CartProduct", b =>
                 {
                     b.HasOne("RookieShopLite.Model.Cart", "Cart")
-                        .WithMany()
+                        .WithMany("CartProducts")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -513,10 +518,6 @@ namespace RookieShopLite.Migrations
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("RookieShopLite.Model.Cart", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CartId");
 
                     b.HasOne("RookieShopLite.Model.Category", "Category")
                         .WithMany("Products")
@@ -556,7 +557,7 @@ namespace RookieShopLite.Migrations
 
             modelBuilder.Entity("RookieShopLite.Model.Cart", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("CartProducts");
                 });
 
             modelBuilder.Entity("RookieShopLite.Model.Category", b =>

@@ -7,6 +7,7 @@ using RookieShopLite.Data;
 using RookieShopLite.Model;
 using RookieShopLite.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -33,7 +34,9 @@ namespace RookieShopLite.Areas.Admin.Apis
         public async Task<ActionResult<CartViewModel>> GetCurrentCart()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var getCart = await _context.Carts.FirstOrDefaultAsync(x => x.UserId == userId && x.isCheckedOut == false);
+            var getCart = await _context.Carts.Include("CartProducts").FirstOrDefaultAsync(x => x.UserId == userId && x.isCheckedOut == false);
+            var products = new List<CartProductViewModel>();
+            var product = new CartProductViewModel();
             if (getCart == null)
             {
                 var newCart = new Cart
@@ -55,19 +58,24 @@ namespace RookieShopLite.Areas.Admin.Apis
             }
             else
             {
+                foreach (var p in getCart.CartProducts.ToList())
+                {
+                    product = new CartProductViewModel
+                    {
+                        CartId = getCart.Id,
+                        Id = p.Id,
+                        imgPath = p.imgPath,
+                        ProductName = p.ProductName,
+                        ProductPriceNow = p.ProductPriceNow,
+                        ProductPriceBefore = p.ProductPriceBefore
+                    };
+                    products.Add(product);
+                }
                 return new CartViewModel
                 {
                     Id = getCart.Id,
                     UserId = userId,
-                    ProductLists = getCart.Products.Select(p => new CartProductViewModel
-                    {
-                        CartId = getCart.Id,
-                        Id = p.Id,
-                        imgPath = p.ProductImages.FirstOrDefault().ToString(),
-                        ProductName = p.ProductName,
-                        ProductPriceNow = p.ProductPriceNow,
-                        ProductPriceBefore = p.ProductPriceBefore
-                    }).ToList()
+                    ProductLists = products
                 };
             }
 

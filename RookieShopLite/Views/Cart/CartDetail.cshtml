@@ -19,6 +19,7 @@
             <th>
                 @* @Html.DisplayNameFor(model => model.user)*@Image
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -35,7 +36,10 @@
                 @Html.DisplayFor(modelItem => item.ProductPriceBefore)
             </td>
             <td>
-                <img src="~/img/@Html.DisplayFor(modelItem=>item.imgPath)" width="200" height="121" alt="Image">
+                <img src="~/images/@Html.DisplayFor(modelItem => item.imgPath)" width="100" alt="Image">
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger">Remove</button>
             </td>
         </tr>
         }

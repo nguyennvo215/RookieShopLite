@@ -55,7 +55,7 @@ namespace RookieShopLite.Areas.Admin.Apis
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
-
+            var products = await _context.Products.Include("ProductImages").ToListAsync();
             if (product == null || product.isDeleted == true)
             {
                 return NotFound();
@@ -211,7 +211,7 @@ namespace RookieShopLite.Areas.Admin.Apis
             _context.Images.Add(image);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = product.Id },
+            return CreatedAtAction("GetProduct", new { id = product.Id },
                 new ProductViewModel 
                 {
                     Id = product.Id,

@@ -41,11 +41,11 @@ namespace RookieShopLite.Areas.Admin.Apis
                 {
                     Id = x.Id,
                     UserId = x.UserId,
-                    ProductLists = x.Products.Select(p => new CartProductViewModel
+                    ProductLists = x.CartProducts.Select(p => new CartProductViewModel
                     {
                         CartId = x.Id,
                         Id = p.Id,
-                        imgPath = p.ProductImages.ToString(),
+                        imgPath = p.imgPath,
                         ProductName = p.ProductName,
                         ProductPriceNow = p.ProductPriceNow,
                         ProductPriceBefore = p.ProductPriceBefore

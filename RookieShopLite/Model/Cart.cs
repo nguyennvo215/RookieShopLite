@@ -9,13 +9,13 @@ namespace RookieShopLite.Model
     {
         public Cart()
         {
-            Products = new HashSet<Product>();
+            CartProducts = new HashSet<CartProduct>();
         }
         [Required]
         public string UserId { get; set; }
         public DateTime AddedDate { get; set; }
         public bool isCheckedOut { get; set; }
         public IdentityUser user { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<CartProduct> CartProducts { get; set; }
     }
 }

@@ -39,19 +39,16 @@
                             </p>
                         }
                         <ul class="product-buttons">
-                            <li>
-                                <a href="#" class="main-btn">Buy Now</a>
-                            </li>
                             @if (!SignInManager.IsSignedIn(User))
                             {
                                 <li>
-                                    <a asp-area="Identity" asp-page="/Account/Login" class="main-btn">Add to Cart</a>
+                                    <a asp-area="Identity" asp-page="/Account/Login" class="main-btn">Buy Now</a>
                                 </li>
                             }
                             else
                             {
                                 <li>
-                                    <a asp-route-id="@product.Id" asp-controller="Cart" asp-action="AddToCart" class="main-btn">Add to Cart</a>
+                                    <a asp-route-id="@product.Id" asp-controller="Cart" asp-action="AddToCart" class="main-btn">Buy Now</a>
                                 </li>
                             }
 

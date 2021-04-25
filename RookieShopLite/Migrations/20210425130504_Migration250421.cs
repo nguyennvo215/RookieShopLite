@@ -2,10 +2,22 @@
 
 namespace RookieShopLite.Migrations
 {
-    public partial class Migration150421 : Migration
+    public partial class Migration250421 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Products_Carts_CartId",
+                table: "Products");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Products_CartId",
+                table: "Products");
+
+            migrationBuilder.DropColumn(
+                name: "CartId",
+                table: "Products");
+
             migrationBuilder.DropColumn(
                 name: "TotalPrice",
                 table: "Carts");
@@ -13,7 +25,7 @@ namespace RookieShopLite.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "UserId",
                 table: "Carts",
-                type: "nvarchar(max)",
+                type: "nvarchar(450)",
                 nullable: false,
                 oldClrType: typeof(int),
                 oldType: "int");
@@ -64,6 +76,11 @@ namespace RookieShopLite.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Carts_UserId",
+                table: "Carts",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CartProducts_CartId",
                 table: "CartProducts",
                 column: "CartId");
@@ -72,15 +89,37 @@ namespace RookieShopLite.Migrations
                 name: "IX_UserRatings_UserId",
                 table: "UserRatings",
                 column: "UserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Carts_AspNetUsers_UserId",
+                table: "Carts",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Carts_AspNetUsers_UserId",
+                table: "Carts");
+
             migrationBuilder.DropTable(
                 name: "CartProducts");
 
             migrationBuilder.DropTable(
                 name: "UserRatings");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Carts_UserId",
+                table: "Carts");
+
+            migrationBuilder.AddColumn<int>(
+                name: "CartId",
+                table: "Products",
+                type: "int",
+                nullable: true);
 
             migrationBuilder.AlterColumn<int>(
                 name: "UserId",
@@ -88,7 +127,7 @@ namespace RookieShopLite.Migrations
                 type: "int",
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(450)");
 
             migrationBuilder.AddColumn<double>(
                 name: "TotalPrice",
@@ -96,6 +135,19 @@ namespace RookieShopLite.Migrations
                 type: "float",
                 nullable: false,
                 defaultValue: 0.0);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CartId",
+                table: "Products",
+                column: "CartId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Products_Carts_CartId",
+                table: "Products",
+                column: "CartId",
+                principalTable: "Carts",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

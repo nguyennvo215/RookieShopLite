@@ -22,7 +22,7 @@ function App() {
       await axios.get(LOCAL_HOST + 'api/categories')
         .then((res) => res.data)
         // .then((res) => setRes(res));
-        .then(res=>console.log(res))
+        .then(res => console.log(res))
     }
     fetchData();
   }, []);

@@ -29,7 +29,8 @@ namespace RookieShopLite.Controllers
         public async Task<IActionResult> AddToCart(int id)
         {
             await _cartProduct.AddProductToCart(id);
-            return RedirectToAction(nameof(CartDetail));
+            //return RedirectToAction(nameof(CartDetail));
+            return Redirect("CartDetail");
         }
 
         public async Task<ActionResult<CartViewModel>> CartDetail()
