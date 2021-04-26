@@ -13,10 +13,11 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
+import { LOCAL_HOST } from '../../Constants/env';
 
 const ProductList = (props) => {
   const Delete=(id)=> {
-     Axios.delete(`https://hngtiendng.azurewebsites.net/api/Category/${id}`).then(
+     Axios.delete(LOCAL_HOST+'api/categories/'+id).then(
       (res) => {
         console.log(res);
         console.log(res.data);
@@ -26,14 +27,13 @@ const ProductList = (props) => {
   const [modal, setModal] = useState(false);
   const [name1,setName]=useState("");
   const toggle = () => setModal(!modal);
+
   const Post=async()=>{
     var bodyFormData = new FormData();
     bodyFormData.append('name',)
-    await Axios.post(
-
-      `https://hngtiendng.azurewebsites.net/api/Category`,
+    await Axios.post(LOCAL_HOST+`api/categories`,
       {
-        name:name1
+        categoryName:name1
       }
       ) .then(res => {
         console.log(res);
@@ -73,7 +73,7 @@ const ProductList = (props) => {
               </Form>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={toggle}>
+              <Button color="primary" onClick={() => Post, toggle}>
                 Submit
               </Button>{" "}
               <Button color="secondary" onClick={toggle}>
