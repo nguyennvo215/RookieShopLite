@@ -17,7 +17,7 @@ import { LOCAL_HOST } from "../../Constants/env";
 
 const ProductList = (props) => {
     const Delete = (id) => {
-        Axios.delete(`https://hngtiendng.azurewebsites.net/api/Category/${id}`).then(
+        Axios.delete(LOCAL_HOST + 'api/products/' + id).then(
             (res) => {
                 console.log(res);
                 console.log(res.data);
@@ -98,12 +98,12 @@ const ProductList = (props) => {
                             <td>{e.productPriceNow}</td>
                             <td>{e.productPriceBefore}</td>
                             <td>
-                                <img className="photo" src= {LOCAL_HOST + "images/" + e.images[0]}/></td>
+                                <img className="photo" src={LOCAL_HOST + "images/" + e.images[0]} /></td>
                             <td>
                                 <Button color="info">Update</Button>{" "}
                                 <Button color="danger" onClick={() => Delete(e.id)}>
                                     Delete
-                </Button>
+                                </Button>
                             </td>
                         </tr>
                     </tbody>
