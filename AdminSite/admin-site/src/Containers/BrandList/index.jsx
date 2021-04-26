@@ -13,10 +13,11 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
+import { LOCAL_HOST } from '../../Constants/env';
 
 const ProductList = (props) => {
   const Delete=(id)=> {
-     Axios.delete(`https://hngtiendng.azurewebsites.net/api/Category/${id}`).then(
+     Axios.delete(LOCAL_HOST+'api/Brands/'+id).then(
       (res) => {
         console.log(res);
         console.log(res.data);
@@ -31,7 +32,7 @@ const ProductList = (props) => {
     bodyFormData.append('name',)
     await Axios.post(
 
-      `https://hngtiendng.azurewebsites.net/api/Category`,
+      LOCAL_HOST + `api/Brands`,
       {
         name:name1
       }
@@ -90,7 +91,7 @@ const ProductList = (props) => {
               <th scope="row">{e.id}</th>
               <td>{e.brandName}</td>
               <td>
-                <Button color="info">Update</Button>{" "}
+                <Button color="info" onClick={toggle}>Update</Button>{" "}
                 <Button color="danger" onClick={() => Delete(e.id)}>
                   Delete
                 </Button>
