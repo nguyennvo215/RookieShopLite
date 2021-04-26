@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RookieShopLite.Areas.Admin.Models;
 using RookieShopLite.ViewModel;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -18,11 +19,11 @@ namespace RookieShopLite.Areas.Admin.ApiServices.CartProduct
         }
 
 
-        public async Task AddProductToCart(int id)
+        public async Task AddProductToCart(CartProductCreateRequest request)
         {
             var httpClient = _httpClientFactory.CreateClient("local");
-            var content = JsonConvert.SerializeObject(id);
-            var httpContent = new StringContent(content.ToString(), Encoding.UTF8, "application/json");
+            var content = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(content, Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync("api/cartproducts", httpContent);
             response.EnsureSuccessStatusCode();
         }

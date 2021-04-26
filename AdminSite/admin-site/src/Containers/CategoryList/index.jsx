@@ -90,7 +90,7 @@ const ProductList = (props) => {
               <th scope="row">{e.id}</th>
               <td>{e.categoryName}</td>
               <td>
-                <Button color="info">Update</Button>{" "}
+                <Button color="info" onClick={toggle}>Update</Button>{" "}
                 <Button color="danger" onClick={() => Delete(e.id)}>
                   Delete
                 </Button>

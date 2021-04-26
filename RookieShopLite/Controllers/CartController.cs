@@ -7,6 +7,7 @@ using RookieShopLite.ViewModel;
 using RookieShopLite.Areas.Admin.ApiServices.Product;
 using RookieShopLite.Areas.Admin.ApiServices.Cart;
 using RookieShopLite.Areas.Admin.ApiServices.CartProduct;
+using RookieShopLite.Areas.Admin.Models;
 
 namespace RookieShopLite.Controllers
 {
@@ -28,7 +29,9 @@ namespace RookieShopLite.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int id)
         {
-            await _cartProduct.AddProductToCart(id);
+            var request = new CartProductCreateRequest();
+            request.Id = id;
+            await _cartProduct.AddProductToCart(request);
             //return RedirectToAction(nameof(CartDetail));
             return Redirect("CartDetail");
         }

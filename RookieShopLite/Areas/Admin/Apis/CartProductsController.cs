@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RookieShopLite.Areas.Admin.ApiServices.Cart;
 using RookieShopLite.Areas.Admin.ApiServices.Product;
+using RookieShopLite.Areas.Admin.Models;
 using RookieShopLite.Data;
 using RookieShopLite.Model;
 using RookieShopLite.ViewModel;
@@ -83,9 +84,9 @@ namespace RookieShopLite.Areas.Admin.Apis
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> AddProductToCart(int id)
+        public async Task<IActionResult> AddProductToCart(CartProductCreateRequest request)
         {
-            var product = await _product.GetProduct(id);
+            var product = await _product.GetProduct(request.Id);
             var cart = GetCurrentCart();
 
             foreach (var p in product)
@@ -96,7 +97,7 @@ namespace RookieShopLite.Areas.Admin.Apis
                     ProductName = p.ProductName,
                     ProductPriceNow = p.ProductPriceNow,
                     ProductPriceBefore = p.ProductPriceBefore,
-                    imgPath = p.images.FirstOrDefault().ToString(),
+                    imgPath = p.images.FirstOrDefault().ToString()
                 };
 
                 _context.CartProducts.Add(cartProduct);

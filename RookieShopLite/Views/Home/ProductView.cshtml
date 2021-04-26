@@ -51,8 +51,10 @@
                                     <a asp-route-id="@product.Id" asp-controller="Cart" asp-action="AddToCart" class="main-btn">Buy Now</a>
                                 </li>
                             }
-
                         </ul>
+                        <form method="post" class="form-inline" asp-route-id="@product.Id" asp-controller="Cart" asp-action="AddToCart">
+                            <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
+                        </form>
                         <div class="blog-comments-section">
                             <div id="disqus_thread"></div>
                             <script>
