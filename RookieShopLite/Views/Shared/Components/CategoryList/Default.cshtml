@@ -1,0 +1,6 @@
+﻿@model List<RookieShopLite.ViewModel.CategoryViewModel>
+
+@foreach (var item in Model)
+{
+    <li><a asp-area="" asp-route-categoryId="@item.Id" asp-action="Index" asp-controller="Home">@item.CategoryName</a></li>
+}

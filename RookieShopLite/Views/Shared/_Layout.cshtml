@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="~/css/templatemo-style.css" asp-append-version="true">
 
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-</head> 
+</head>
 <body>
     <header class="site-header">
         <div class="top-header">
@@ -34,16 +34,16 @@
                         <div class="top-header-left">
                             @if (SignInManager.IsSignedIn(User))
                             {
-                            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-                            @*<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                            </form>*@
-                            <a asp-area="Identity" asp-page="/Account/Logout">Log Out</a>
+                                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+                                @*<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                    </form>*@
+                                <a asp-area="Identity" asp-page="/Account/Logout">Log Out</a>
                             }
                             else
                             {
-                            <a asp-area="Identity" asp-page="/Account/Register">Sign Up</a>
-                            <a asp-area="Identity" asp-page="/Account/Login">Log In</a>
+                                <a asp-area="Identity" asp-page="/Account/Register">Sign Up</a>
+                                <a asp-area="Identity" asp-page="/Account/Login">Log In</a>
                             }
                         </div>
                     </div>
@@ -74,12 +74,13 @@
                             <a href="#" class="toggle-menu">
                                 <i class="fa fa-bars"></i>
                             </a>
-                            <ul class="menu">
-                                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                                <li><a href="#">Catalogs</a></li>
-                                <li><a href="#">FAQs</a></li>
-                                <li><a href="#">Policies</a></li>
-                                <li><a href="#">About</a></li>
+                            <ul id="menu" class="menu">
+                                @await Component.InvokeAsync("CategoryList")
+                                @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                                    <li><a href="#">Catalogs</a></li>
+                                    <li><a href="#">FAQs</a></li>
+                                    <li><a href="#">Policies</a></li>
+                                    <li><a href="#">About</a></li>*@
                             </ul>
                         </div>
                     </div>
