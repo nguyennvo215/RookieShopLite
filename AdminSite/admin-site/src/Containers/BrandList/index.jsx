@@ -28,8 +28,14 @@ const ProductList = (props) => {
   const [modal, setModal] = useState(false);
   const [name1,setName]=useState("");
   const toggle = () => setModal(!modal);
-  const [reload, setReload] = useState(0);
   const [selectedItem,setSelectedItem] = useState();
+
+  async function selectItem1(i){
+    //i.preventDefault();
+      setSelectedItem( (await Axios.get(LOCAL_HOST+'api/brands/'+i)).data);
+      console.log("select",selectedItem);
+      toggle()
+  }
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -43,32 +49,9 @@ const ProductList = (props) => {
       } else {
         await Axios.put(LOCAL_HOST+'api/brands/'+selectedItem.id, values);
       }
-      setReload(1);
     }
   });
-  async function selectItem1(i){
-    //i.preventDefault();
-      setSelectedItem( (await Axios.get(LOCAL_HOST+'api/brands/'+i)).data);
-      console.log("select",selectedItem);
-      toggle()
-  }
-  const Post=async()=>{
-    var bodyFormData = new FormData();
-    bodyFormData.append('name',)
-    await Axios.post(
 
-      LOCAL_HOST + `api/Brands`,
-      {
-        name:name1
-      }
-      ) .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
-  }
-  const setName1=(e)=>{
-    setName(e.target.value)
-  }
 
   return (
     <Table>
