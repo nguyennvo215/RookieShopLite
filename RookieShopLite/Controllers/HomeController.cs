@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RookieShopLite.Areas.Admin.ApiServices.Category;
 using RookieShopLite.Areas.Admin.ApiServices.Product;
 using RookieShopLite.Models;
 using System.Diagnostics;
@@ -11,17 +12,27 @@ namespace RookieShopLite.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductApiService _product;
+        private readonly ICategoryApiService _category;
 
-        public HomeController(ILogger<HomeController> logger, IProductApiService product)
+        public HomeController(ILogger<HomeController> logger, IProductApiService product, ICategoryApiService category)
         {
             _logger = logger;
             _product = product;
+            _category = category;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int categoryId)
         {
-            var products = await _product.GetProducts();
-            return View(products);
+            if (categoryId != 0)
+            {
+                var products = await _product.GetProductsByCategory(categoryId);
+                return View(products);
+            }
+            else
+            {
+                var products = await _product.GetProducts();
+                return View(products);
+            }
         }
 
         public IActionResult Privacy()
