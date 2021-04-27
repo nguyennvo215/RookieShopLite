@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import Axios from "axios";
+import { useFormik } from "formik";
 import {
   Table,
   Button,
@@ -25,24 +26,18 @@ const ProductList = (props) => {
     );
   }
   const [modal, setModal] = useState(false);
-  const [name1,setName]=useState("");
   const toggle = () => setModal(!modal);
 
-  const Post=async()=>{
-    var bodyFormData = new FormData();
-    bodyFormData.append('name',)
-    await Axios.post(LOCAL_HOST+`api/categories`,
-      {
-        categoryName:name1
-      }
-      ) .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
-  }
-  const setName1=(e)=>{
-    setName(e.target.value)
-  }
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      categoryName: ''
+    },
+    onSubmit : async (values) => {
+      console.log(values);
+      await Axios.post(LOCAL_HOST+'api/categories', values);
+    }
+  });
 
   return (
     <Table>
@@ -57,29 +52,26 @@ const ProductList = (props) => {
           <Modal isOpen={modal} toggle={toggle} >
             <ModalHeader toggle={toggle}>Modal title</ModalHeader>
             <ModalBody>
-              <Form>
+              <Form onSubmit={formik.handleSubmit}>
                 <FormGroup>
                   <Label for="exampleEmail">Name</Label>
                   <Input
                     type="text"
-                    name="email"
-                    id="exampleEmail"
+                    name="categoryName"
+                    id="categoryName"
                     placeholder="Name of Category"
-                    onChange={setName1}
-                    value={name1}
+                    onChange={formik.handleChange}
+                    value={formik.values.categoryName}
                   />
                 </FormGroup>
-                
-              </Form>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={() => Post, toggle}>
+                <Button color="primary" type="submit" onClick={toggle}>
                 Submit
               </Button>{" "}
               <Button color="secondary" onClick={toggle}>
                 Cancel
               </Button>
-            </ModalFooter>
+              </Form>
+            </ModalBody>
           </Modal>
         </tr>
       </thead>
