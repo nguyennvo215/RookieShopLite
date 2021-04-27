@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import Axios from "axios";
+import { useFormik } from "formik";
 import {
   Table,
   Button,
@@ -27,6 +28,30 @@ const ProductList = (props) => {
   const [modal, setModal] = useState(false);
   const [name1,setName]=useState("");
   const toggle = () => setModal(!modal);
+  const [reload, setReload] = useState(0);
+  const [selectedItem,setSelectedItem] = useState();
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      brandName: selectedItem==null?"":selectedItem.brandName
+    },
+    onSubmit : async (values) => {
+      console.log(values);
+      if (selectedItem == null) {
+        await Axios.post(LOCAL_HOST+'api/brands', values);
+      } else {
+        await Axios.put(LOCAL_HOST+'api/brands/'+selectedItem.id, values);
+      }
+      setReload(1);
+    }
+  });
+  async function selectItem1(i){
+    //i.preventDefault();
+      setSelectedItem( (await Axios.get(LOCAL_HOST+'api/brands/'+i)).data);
+      console.log("select",selectedItem);
+      toggle()
+  }
   const Post=async()=>{
     var bodyFormData = new FormData();
     bodyFormData.append('name',)
@@ -56,31 +81,30 @@ const ProductList = (props) => {
             <Button color="success" onClick={toggle}>Create</Button>
           </th>
           <Modal isOpen={modal} toggle={toggle} >
-            <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+            <ModalHeader toggle={toggle}>Modal title </ModalHeader>
             <ModalBody>
-              <Form>
+              <Form onSubmit={formik.handleSubmit}>
                 <FormGroup>
+                  
                   <Label for="exampleEmail">Name</Label>
                   <Input
                     type="text"
-                    name="email"
-                    id="exampleEmail"
-                    placeholder="Name of Category"
-                    onChange={setName1}
-                    value={name1}
+                    name="brandName"
+                    id="brandName"
+                    placeholder="Name of Brand"
+                    onChange={formik.handleChange}
+                    value={formik.values.brandName}
+                   
                   />
                 </FormGroup>
-                
-              </Form>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={toggle}>
+                <Button color="primary" type="submit" onClick={toggle}>
                 Submit
               </Button>{" "}
               <Button color="secondary" onClick={toggle}>
                 Cancel
               </Button>
-            </ModalFooter>
+              </Form>
+            </ModalBody>
           </Modal>
         </tr>
       </thead>
@@ -91,7 +115,7 @@ const ProductList = (props) => {
               <th scope="row">{e.id}</th>
               <td>{e.brandName}</td>
               <td>
-                <Button color="info" onClick={toggle}>Update</Button>{" "}
+                <Button color="info"  onClick={()=>selectItem1(e.id)}>Update</Button>{" "}
                 <Button color="danger" onClick={() => Delete(e.id)}>
                   Delete
                 </Button>
