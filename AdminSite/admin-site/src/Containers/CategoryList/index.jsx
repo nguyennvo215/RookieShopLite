@@ -27,15 +27,27 @@ const ProductList = (props) => {
   }
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
+  const [selectedItem,setSelectedItem] = useState();
+
+  async function selectItem1(i){
+    //i.preventDefault();
+      setSelectedItem( (await Axios.get(LOCAL_HOST+'api/categories/'+i)).data);
+      console.log("select",selectedItem);
+      toggle()
+  }
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      categoryName: ''
+      categoryName: selectedItem==null?"":selectedItem.categoryName
     },
     onSubmit : async (values) => {
       console.log(values);
-      await Axios.post(LOCAL_HOST+'api/categories', values);
+      if (selectedItem == null) {
+        await Axios.post(LOCAL_HOST+'api/categories', values);
+      } else {
+        await Axios.put(LOCAL_HOST+'api/categories/'+selectedItem.id, values);
+      }
     }
   });
 
@@ -82,7 +94,7 @@ const ProductList = (props) => {
               <th scope="row">{e.id}</th>
               <td>{e.categoryName}</td>
               <td>
-                <Button color="info" onClick={toggle}>Update</Button>{" "}
+                <Button color="info" onClick={()=>selectItem1(e.id)}>Update</Button>{" "}
                 <Button color="danger" onClick={() => Delete(e.id)}>
                   Delete
                 </Button>
