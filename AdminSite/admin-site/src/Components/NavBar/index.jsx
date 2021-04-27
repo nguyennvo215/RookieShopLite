@@ -33,6 +33,9 @@ export default function TopMenu() {
                     <NavItem>
                         <NavLink ><Link to='/category'>Category</Link></NavLink>
                     </NavItem>
+                    <NavItem>
+                        <NavLink ><Link to='/user'>User</Link></NavLink>
+                    </NavItem>
                 </Nav>
                 <NavbarText>Simple Text</NavbarText>
             </Collapse>
