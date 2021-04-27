@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RookieShopLite.Areas.Admin.ApiServices.User
 {
     public interface IUserApiService
     {
+        public Task<IEnumerable<IdentityUser>> GetUsers();
     }
 }

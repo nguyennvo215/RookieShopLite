@@ -21,7 +21,7 @@ namespace RookieShopLite.Areas.Admin.Apis
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<IdentityUser>>> GetCustomers()
+        public async Task<ActionResult<IEnumerable<IdentityUser>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }
