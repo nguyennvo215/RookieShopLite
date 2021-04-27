@@ -9,6 +9,7 @@ namespace RookieShopLite.Areas.Admin.ApiServices.Product
     {
         Task<IList<ProductViewModel>> GetProducts();
         Task<IList<ProductViewModel>> GetProduct(int id);
+        Task<IList<ProductViewModel>> GetProductsByCategory(int id);
         Task<ProductViewModel> PutProduct(int id, ProductCreateRequest productCreateRequest);
         Task<ProductViewModel> PostProduct(ProductCreateRequest productCreateRequest);
         Task DeleteProduct(int id);

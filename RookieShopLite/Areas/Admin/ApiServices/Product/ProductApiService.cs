@@ -35,6 +35,14 @@ namespace RookieShopLite.Areas.Admin.ApiServices.Product
             return await response.Content.ReadFromJsonAsync<IList<ProductViewModel>>();
         }
 
+        public async Task<IList<ProductViewModel>> GetProductsByCategory(int id)
+        {
+            var httpClient = _httpClientFactory.CreateClient("local");
+            var response = await httpClient.GetAsync("api/products/categoryId" + $"={id}");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<IList<ProductViewModel>>();
+        }
+
         public async Task<IList<ProductViewModel>> GetProduct(int id)
         {
             var httpClient = _httpClientFactory.CreateClient("local");

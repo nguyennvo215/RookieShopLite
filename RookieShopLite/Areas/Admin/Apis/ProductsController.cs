@@ -50,6 +50,35 @@ namespace RookieShopLite.Areas.Admin.Apis
                 .ToListAsync();
         }
 
+        [HttpGet("categoryId={id}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProductsByCategory(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null || category.isDeleted == true)
+            {
+                return NotFound();
+            }
+
+            return await _context.Products
+                .Include("ProductImages")
+                .Where(x => x.isDeleted == false && x.CategoryId == id)
+                .Select(x => new ProductViewModel
+                {
+                    Id = x.Id,
+                    ProductName = x.ProductName,
+                    BrandId = x.BrandId,
+                    CategoryId = x.CategoryId,
+                    ProductShortDescription = x.ProductShortDescription,
+                    ProductFullDescription = x.ProductFullDescription,
+                    ProductPriceNow = x.ProductPriceNow,
+                    ProductPriceBefore = x.ProductPriceBefore,
+                    images = x.ProductImages.Select(u => u.imgPath).ToList()
+                })
+                .ToListAsync();
+        }
+
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProduct(int id)
