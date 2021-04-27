@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RookieShopLite.ViewModel
+namespace RookieShopLite.Areas.Admin.Models
 {
-    public class UserRatingViewModel
+    public class RatingCreateRequest
     {
         public string UserId { get; set; }
-        public string UserName { get; set; }
         public int ProductId { get; set; }
-        public double Rating { get; set; }
+        public double RatingNumber { get; set; }
+        public bool isRated { get; set; }
     }
 }

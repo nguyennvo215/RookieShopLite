@@ -13,26 +13,28 @@
         <div class="row">
             @foreach (var product in Model)
             {
-            <div class="col-md-3 col-sm-6">
-                <div class="product-item">
-                    <div class="product-thumb">
-                        @{ string image = product.images.FirstOrDefault(); }
-                        <img src="~/images/@Html.DisplayFor(modelItem => image)" alt="">
-                    </div>
-                    <div class="product-content">
-                        <h5><a asp-controller="Home" asp-action="ProductView" asp-route-id="@product.Id">@product.ProductName</a></h5>
-                        @if (product.ProductPriceBefore == 0)
-                        {
-                            <span class="price">$@product.ProductPriceNow</span>
-                        } else
-                        { 
-                            <span class="price">$@product.ProductPriceNow</span>
-                            <span class="price-before"><strike>$@product.ProductPriceBefore</strike></span>
-                        }
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-item">
+                        <div class="product-thumb">
+                            @{ string image = product.images.FirstOrDefault(); }
+                            <img src="~/images/@Html.DisplayFor(modelItem => image)" alt="">
+                        </div>
+                        <div class="product-content">
+                            <h5><a asp-controller="Home" asp-action="ProductView" asp-route-id="@product.Id">@product.ProductName</a></h5>
+                            @if (product.ProductPriceBefore == 0)
+                            {
+                                <span class="price">$@product.ProductPriceNow</span>
+                            }
+                            else
+                            {
+                                <span class="price">$@product.ProductPriceNow</span>
+                                <span class="price-before"><strike>$@product.ProductPriceBefore</strike></span>
+                            }
 
+                        </div>
                     </div>
                 </div>
-            </div>
             }
+        </div>
     </div>
 </div>
