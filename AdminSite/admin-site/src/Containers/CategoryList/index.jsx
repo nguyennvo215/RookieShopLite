@@ -16,7 +16,7 @@ import {
 } from "reactstrap";
 import { LOCAL_HOST } from '../../Constants/env';
 
-const ProductList = (props) => {
+const CategoryList = (props) => {
   const Delete=(id)=> {
      Axios.delete(LOCAL_HOST+'api/categories/'+id).then(
       (res) => {
@@ -107,4 +107,4 @@ const ProductList = (props) => {
   );
 };
 
-export default ProductList;
+export default CategoryList;
