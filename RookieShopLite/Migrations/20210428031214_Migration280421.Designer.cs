@@ -10,7 +10,7 @@ using RookieShopLite.Data;
 namespace RookieShopLite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210427214507_Migration280421")]
+    [Migration("20210428031214_Migration280421")]
     partial class Migration280421
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -415,11 +415,14 @@ namespace RookieShopLite.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<double>("RatingNumber")
-                        .HasColumnType("float");
+                    b.Property<int>("RatingNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");

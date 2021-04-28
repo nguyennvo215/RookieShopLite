@@ -108,7 +108,8 @@ namespace RookieShopLite.Areas.Admin.Apis
                     {
                         UserId = r.UserId,
                         UserName = r.UserName,
-                        Rating = r.RatingNumber
+                        Rating = r.RatingNumber,
+                        Content = r.Content
                     }).ToList()
                 })
                 .ToListAsync();

@@ -54,7 +54,7 @@ namespace RookieShopLite.Controllers
         public async Task<IActionResult> ProductView(RatingCreateRequest request)
         {
             var rating = await _rating.PostRating(request);
-            var product = await _product.GetProduct(rating.ProductId);
+            var product = await _product.GetProduct(request.ProductId);
             return View(product);
         }
 

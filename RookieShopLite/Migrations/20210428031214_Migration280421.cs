@@ -63,7 +63,8 @@ namespace RookieShopLite.Migrations
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     isRated = table.Column<bool>(type: "bit", nullable: false),
-                    RatingNumber = table.Column<double>(type: "float", nullable: false)
+                    RatingNumber = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
