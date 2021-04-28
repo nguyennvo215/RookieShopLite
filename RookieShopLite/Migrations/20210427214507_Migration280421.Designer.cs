@@ -10,8 +10,8 @@ using RookieShopLite.Data;
 namespace RookieShopLite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210425130504_Migration250421")]
-    partial class Migration250421
+    [Migration("20210427214507_Migration280421")]
+    partial class Migration280421
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -424,10 +424,15 @@ namespace RookieShopLite.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("isRated")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -543,9 +548,17 @@ namespace RookieShopLite.Migrations
 
             modelBuilder.Entity("RookieShopLite.Model.UserRating", b =>
                 {
+                    b.HasOne("RookieShopLite.Model.Product", "Product")
+                        .WithMany("Ratings")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -568,6 +581,8 @@ namespace RookieShopLite.Migrations
             modelBuilder.Entity("RookieShopLite.Model.Product", b =>
                 {
                     b.Navigation("ProductImages");
+
+                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("RookieShopLite.Model.RetailDetail", b =>

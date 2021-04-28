@@ -12,6 +12,8 @@ using RookieShopLite.Areas.Admin.ApiServices.Cart;
 using RookieShopLite.Areas.Admin.ApiServices.CartProduct;
 using RookieShopLite.Areas.Admin.ApiServices.Category;
 using RookieShopLite.Areas.Admin.ApiServices.Product;
+using RookieShopLite.Areas.Admin.ApiServices.Rating;
+using RookieShopLite.Areas.Admin.ApiServices.User;
 using RookieShopLite.Data;
 using System;
 using System.Net;
@@ -85,6 +87,8 @@ namespace RookieShopLite
             services.AddTransient<IProductApiService, ProductApiService>();
             services.AddTransient<ICartApiService, CartApiService>();
             services.AddTransient<ICartProductApiService, CartProductApiService>();
+            services.AddTransient<IRatingApiService, RatingApiService>();
+            services.AddTransient<IUserApiService, UserApiService>();
 
             services.AddControllersWithViews();
         }

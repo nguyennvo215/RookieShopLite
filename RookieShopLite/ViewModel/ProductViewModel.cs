@@ -14,5 +14,6 @@ namespace RookieShopLite.ViewModel
         public decimal ProductPriceBefore { get; set; }
         public List<string> images { get; set; }
         public bool isDeleted { get; set; }
+        public List<UserRatingViewModel> Ratings { get; set; }
     }
 }

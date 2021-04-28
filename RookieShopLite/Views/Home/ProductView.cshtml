@@ -38,23 +38,21 @@
                                 <span>Price: $@product.ProductPriceNow</span>
                             </p>
                         }
-                        <ul class="product-buttons">
-                            @if (!SignInManager.IsSignedIn(User))
-                            {
+                        @if (!SignInManager.IsSignedIn(User))
+                        {
+                            <ul class="product-buttons">
                                 <li>
-                                    <a asp-area="Identity" asp-page="/Account/Login" class="main-btn">Buy Now</a>
+                                    <a asp-area="Identity" asp-page="/Account/Login" class="main-btn">AddToCart</a>
                                 </li>
-                            }
-                            else
-                            {
-                                <li>
-                                    <a asp-route-id="@product.Id" asp-controller="Cart" asp-action="AddToCart" class="main-btn">Buy Now</a>
-                                </li>
-                            }
-                        </ul>
-                        <form method="post" class="form-inline" asp-route-id="@product.Id" asp-controller="Cart" asp-action="AddToCart">
-                            <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
-                        </form>
+                            </ul>
+                        }
+                        else
+                        {
+                            <form method="post" class="form-inline" asp-route-id="@product.Id" asp-controller="Cart" asp-action="AddToCart">
+                                <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
+                            </form>
+                        }
+
                         <div class="blog-comments-section">
                             <div id="disqus_thread"></div>
                             <script>
@@ -78,39 +76,33 @@
                     </div> <!-- /.product-information -->
                 </div>
                 <div class="col-md-4 col-sm-8">
-                    @*<div class="product-item-2">
-            <div class="product-thumb">
-                <img src="images/featured/1.jpg" alt="Product Title">
-            </div>  /.product-thumb
-            <div class="product-content overlay">
-                <h5><a href="#">Name Of Shirt</a></h5>
-                <span class="tagline">Partner Name</span>
-                <span class="price">$30.00</span>
-                <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt tenetur deleniti labore!</p>
-            </div>
-        </div>
-        <div class="product-item-2">
-            <div class="product-thumb">
-                <img src="images/featured/2.jpg" alt="Product Title">
-            </div>  /.product-thumb
-            <div class="product-content overlay">
-                <h5><a href="#">Name Of Shirt</a></h5>
-                <span class="tagline">Partner Name</span>
-                <span class="price">$40.00</span>
-                <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt tenetur deleniti labore!</p>
-            </div>
-        </div>
-        <div class="product-item-2">
-            <div class="product-thumb">
-                <img src="images/featured/8.jpg" alt="Product Title">
-            </div>  /.product-thumb
-            <div class="product-content overlay">
-                <h5><a href="#">Name Of Shirt</a></h5>
-                <span class="tagline">Partner Name</span>
-                <span class="price">$50.00</span>
-                <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt tenetur deleniti labore!</p>
-            </div>
-        </div>*@
+                    @foreach (var rating in product.Ratings)
+                    {
+
+                        <div>
+                            <span>Rating: @rating.Rating</span>
+                        </div>
+                        <div>
+                            <span><b>@rating.UserName</b></span>
+                        </div>
+                        <div>
+                            <span>@rating.Content</span>
+                        </div>
+                        <hr />
+
+
+                    }
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <form asp-controller="Home" asp-action="ProductView" method="post">
+                            <b>Choose your rating: </b><br />
+                            <input hidden value="@product.Id" name="ProductId" />
+                            <input name="RatingNumber" type="number" />
+                            <textarea name="Content" placeholder="Please give me some real reviews!"></textarea>
+
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Post</button>
+                        </form>
+                    }
                 </div> <!-- /.col-md-4 -->
             </div> <!-- /.row -->
         }

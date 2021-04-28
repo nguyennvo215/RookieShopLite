@@ -39,8 +39,9 @@ namespace RookieShopLite.Areas.Admin.Apis
                 .Where(x => x.ProductId == product.Id && x.isRated == true)
                 .Select(x => new UserRatingViewModel { 
                     UserId = x.UserId,
-                    UserName = x.User.UserName,
-                    Rating = x.RatingNumber
+                    UserName = x.UserName,
+                    Rating = x.RatingNumber,
+                    Content = x.Content
                 })
                 .ToListAsync();
         }
@@ -50,11 +51,14 @@ namespace RookieShopLite.Areas.Admin.Apis
         public async Task<ActionResult<UserRatingViewModel>> PostRating(RatingCreateRequest request)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userName = User.FindFirstValue(ClaimTypes.Name);
             var rating = new UserRating
             {
                 ProductId = request.ProductId,
                 UserId = userId,
+                UserName = userName,
                 RatingNumber = request.RatingNumber,
+                Content = request.Content,
                 isRated = true
             };
 
@@ -63,8 +67,9 @@ namespace RookieShopLite.Areas.Admin.Apis
 
             return CreatedAtAction("GetRatings", new { id = rating.Id }, new UserRatingViewModel {
                 UserId = rating.UserId,
-                UserName = rating.User.UserName,
-                Rating = rating.RatingNumber
+                UserName = rating.UserName,
+                Rating = rating.RatingNumber,
+                Content = rating.Content
             });
         }
     }

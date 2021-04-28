@@ -11,5 +11,6 @@ namespace RookieShopLite.ViewModel
         public string UserName { get; set; }
         public int ProductId { get; set; }
         public double Rating { get; set; }
+        public string Content { get; set; }
     }
 }

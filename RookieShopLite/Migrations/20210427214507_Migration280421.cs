@@ -2,7 +2,7 @@
 
 namespace RookieShopLite.Migrations
 {
-    public partial class Migration250421 : Migration
+    public partial class Migration280421 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,6 +60,7 @@ namespace RookieShopLite.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     isRated = table.Column<bool>(type: "bit", nullable: false),
                     RatingNumber = table.Column<double>(type: "float", nullable: false)
@@ -73,6 +74,12 @@ namespace RookieShopLite.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserRatings_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -84,6 +91,11 @@ namespace RookieShopLite.Migrations
                 name: "IX_CartProducts_CartId",
                 table: "CartProducts",
                 column: "CartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRatings_ProductId",
+                table: "UserRatings",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRatings_UserId",

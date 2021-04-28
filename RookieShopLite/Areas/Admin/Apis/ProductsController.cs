@@ -103,7 +103,13 @@ namespace RookieShopLite.Areas.Admin.Apis
                     ProductFullDescription = x.ProductFullDescription,
                     ProductPriceNow = x.ProductPriceNow,
                     ProductPriceBefore = x.ProductPriceBefore,
-                    images = x.ProductImages.Select(u => u.imgPath).ToList()
+                    images = x.ProductImages.Select(u => u.imgPath).ToList(),
+                    Ratings = x.Ratings.Select(r => new UserRatingViewModel
+                    {
+                        UserId = r.UserId,
+                        UserName = r.UserName,
+                        Rating = r.RatingNumber
+                    }).ToList()
                 })
                 .ToListAsync();
 
