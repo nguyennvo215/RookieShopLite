@@ -4,6 +4,7 @@ using RookieShopLite.Areas.Admin.Apis;
 using RookieShopLite.Areas.Admin.Models;
 using RookieShopLite.Model;
 using RookieShopLite.ViewModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -65,6 +66,20 @@ namespace UnitTest.ControllerTest
 
             var returnValue = await dbContext.Categories.Where(x => x.isDeleted == false).ToListAsync();
             Assert.Empty(returnValue);
+        }
+
+        [Fact]
+        public async Task GetCategory_Success()
+        {
+            var dbContext = _fixture.Context;
+            dbContext.Categories.Add(new Category { CategoryName = "Test category" });
+            await dbContext.SaveChangesAsync();
+
+            var controller = new CategoriesController(dbContext);
+            var result = await controller.GetCategories();
+
+            var actionResult = Assert.IsType<ActionResult<IEnumerable<CategoryViewModel>>>(result);
+            Assert.NotEmpty(actionResult.Value);
         }
     }
 }
