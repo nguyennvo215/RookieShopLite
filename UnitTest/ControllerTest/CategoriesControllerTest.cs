@@ -50,5 +50,21 @@ namespace UnitTest.ControllerTest
             var returnValue = await dbContext.Categories.OrderByDescending(x => x.Id).FirstAsync();
             Assert.Equal("Test put category", returnValue.CategoryName);
         }
+
+        [Fact]
+        public async Task DeleteCategory_Success()
+        {
+            var dbContext = _fixture.Context;
+            dbContext.Categories.Add(new Category { CategoryName = "Test category" });
+            await dbContext.SaveChangesAsync();
+
+            var oldCategory = await dbContext.Categories.OrderByDescending(x => x.Id).FirstAsync();
+
+            var controller = new CategoriesController(dbContext);
+            var result = await controller.DeleteCategory(oldCategory.Id);
+
+            var returnValue = await dbContext.Categories.Where(x => x.isDeleted == false).ToListAsync();
+            Assert.Empty(returnValue);
+        }
     }
 }
