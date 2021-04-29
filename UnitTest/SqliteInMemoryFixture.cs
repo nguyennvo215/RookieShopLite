@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RookieShopLite.Data;
 using System;
 
-namespace TheFakeShop.Backend.Test
+namespace UnitTest
 {
     public class SqliteInMemoryFixture : IDisposable
     {
