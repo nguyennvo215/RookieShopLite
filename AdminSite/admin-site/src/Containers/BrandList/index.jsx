@@ -26,7 +26,6 @@ const BrandList = (props) => {
     );
   }
   const [modal, setModal] = useState(false);
-  const [name1,setName]=useState("");
   const toggle = () => setModal(!modal);
   const [selectedItem,setSelectedItem] = useState();
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import { useFormik } from 'formik';
 import {
     Table,
     Button,
@@ -25,25 +26,30 @@ const ProductList = (props) => {
         );
     }
     const [modal, setModal] = useState(false);
-    const [name1, setName] = useState("");
     const toggle = () => setModal(!modal);
-    const Post = async () => {
-        var bodyFormData = new FormData();
-        bodyFormData.append('name',)
-        await Axios.post(
+    const [selectedItem,setSelectedItem] = useState();
 
-            `https://hngtiendng.azurewebsites.net/api/Category`,
-            {
-                name: name1
-            }
-        ).then(res => {
-            console.log(res);
-            console.log(res.data);
-        })
-    }
-    const setName1 = (e) => {
-        setName(e.target.value)
-    }
+    async function selectItem1(i){
+        //i.preventDefault();
+          setSelectedItem( (await Axios.get(LOCAL_HOST+'api/categories/'+i)).data);
+          console.log("select",selectedItem);
+          toggle()
+      }
+
+    const formik = useFormik({
+        enableReinitialize: true,
+        initialValues: {
+          categoryName: selectedItem==null?"":selectedItem.categoryName
+        },
+        onSubmit : async (values) => {
+          console.log(values);
+          if (selectedItem == null) {
+            await Axios.post(LOCAL_HOST+'api/categories', values);
+          } else {
+            await Axios.put(LOCAL_HOST+'api/categories/'+selectedItem.id, values);
+          }
+        }
+      });
 
     return (
         <Table>
@@ -62,23 +68,47 @@ const ProductList = (props) => {
                     <Modal isOpen={modal} toggle={toggle} >
                         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
                         <ModalBody>
-                            <Form>
+                            <Form onSubmit={formik.handleSubmit}>
                                 <FormGroup>
                                     <Label for="exampleEmail">Name</Label>
                                     <Input
                                         type="text"
-                                        name="email"
-                                        id="exampleEmail"
+                                        name="productName"
+                                        id="productName"
                                         placeholder="Name of Category"
-                                        onChange={setName1}
-                                        value={name1}
+                                        onChange={formik.handleChange}
+                                        value={formik.values.productName}
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="productName"
+                                        id="productName"
+                                        placeholder="Name of Category"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.productName}
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="productShortDescription"
+                                        id="productShortDescription"
+                                        placeholder="Name of Category"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.productShortDescription}
+                                    />
+                                    <Input
+                                        type="textarea"
+                                        name="productFullDescription"
+                                        id="productFullDescription"
+                                        placeholder="Name of Category"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.productFullDescription}
                                     />
                                 </FormGroup>
 
                             </Form>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={toggle}>
+                            <Button color="primary" type="submit" onClick={toggle}>
                                 Submit
               </Button>{" "}
                             <Button color="secondary" onClick={toggle}>
@@ -100,7 +130,7 @@ const ProductList = (props) => {
                             <td>
                                 <img className="photo" src={LOCAL_HOST + "images/" + e.images[0]} /></td>
                             <td>
-                                <Button color="info">Update</Button>{" "}
+                                <Button color="info" onClick={()=>selectItem1(e.id)}>Update</Button>{" "}
                                 <Button color="danger" onClick={() => Delete(e.id)}>
                                     Delete
                                 </Button>
