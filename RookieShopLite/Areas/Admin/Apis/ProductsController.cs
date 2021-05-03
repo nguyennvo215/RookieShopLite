@@ -138,28 +138,7 @@ namespace RookieShopLite.Areas.Admin.Apis
             product.isDeleted = false;
             await _context.SaveChangesAsync();
 
-            var files = HttpContext.Request.Form.Files;
-            if (files != null) //check if there is uploaded img
-            {
-                foreach (var Image in files)
-                {
-                    if (Image != null && Image.Length > 0)
-                    {
-                        var file = Image;
-                        var uploads = Path.Combine(_hostEnvironment.WebRootPath, "img");
-                        if (file.Length > 0)
-                        {
-                            var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
-                            using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
-                            {
-                                await file.CopyToAsync(fileStream);
-                                productCreateRequest.imgPath = fileName;
-                            }
-                        }
-                    }
-                }
-            }
-            else
+            if (productCreateRequest.imgPath == null)
             {
                 productCreateRequest.imgPath = "";
             }
@@ -209,32 +188,10 @@ namespace RookieShopLite.Areas.Admin.Apis
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-
-            var files = HttpContext.Request.Form.Files;
-            if (files != null) //check if there is uploaded img
-            {
-                foreach (var Image in files)
-                {
-                    if (Image != null && Image.Length > 0)
-                    {
-                        var file = Image;
-                        var uploads = Path.Combine(_hostEnvironment.WebRootPath, "img");
-                        if (file.Length > 0)
-                        {
-                            var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
-                            using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
-                            {
-                                await file.CopyToAsync(fileStream);
-                                productCreateRequest.imgPath = fileName;
-                            }
-                        }
-                    }
-                }
-            }
-            else
+            if (productCreateRequest.imgPath == null)
             {
                 productCreateRequest.imgPath = "";
-            }
+            }                
 
             var image = new ProductImage
             {

@@ -13,6 +13,8 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
+    Col,
+    Row
 } from "reactstrap";
 import { LOCAL_HOST } from "../../Constants/env";
 
@@ -27,29 +29,56 @@ const ProductList = (props) => {
     }
     const [modal, setModal] = useState(false);
     const toggle = () => setModal(!modal);
-    const [selectedItem,setSelectedItem] = useState();
+    const [selectedItem, setSelectedItem] = useState();
+    const [image, setImage] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    async function selectItem1(i){
-        //i.preventDefault();
-          setSelectedItem( (await Axios.get(LOCAL_HOST+'api/categories/'+i)).data);
-          console.log("select",selectedItem);
-          toggle()
-      }
+    async function selectItem1(i) {
+        setSelectedItem((await Axios.get(LOCAL_HOST + 'api/products/' + i)).data[0]);
+        console.log("select", selectedItem);
+        toggle()
+    }
 
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-          categoryName: selectedItem==null?"":selectedItem.categoryName
+            productName: selectedItem == null ? "" : selectedItem.productName,
+            brandId: selectedItem == null ? "" : selectedItem.brandId,
+            categoryId: selectedItem == null ? "" : selectedItem.categoryId,
+            productShortDescription: selectedItem == null ? "" : selectedItem.productShortDescription,
+            productFullDescription: selectedItem == null ? "" : selectedItem.productFullDescription,
+            productPriceNow: selectedItem == null ? "" : selectedItem.productPriceNow,
+            productPriceBefore: selectedItem == null ? "" : selectedItem.productPriceBefore,
+            imgPath: ""
         },
-        onSubmit : async (values) => {
-          console.log(values);
-          if (selectedItem == null) {
-            await Axios.post(LOCAL_HOST+'api/categories', values);
-          } else {
-            await Axios.put(LOCAL_HOST+'api/categories/'+selectedItem.id, values);
-          }
+        onSubmit: async (values) => {
+            console.log(values);
+            if (selectedItem == null) {
+                await Axios.post(LOCAL_HOST + 'api/products', values);
+            } else {
+                await Axios.put(LOCAL_HOST + 'api/products/' + selectedItem.id, values);
+            }
         }
-      });
+    });
+
+    const uploadImage = async (e) => {
+        const files = e.target.files;
+        const data = new FormData();
+        data.append("file", files[0]);
+        data.append("upload_preset", "presetname");
+        setLoading(true);
+        const res = await fetch(
+            "https://api.cloudinary.com/v1_1/dfzg0xvjj/image/upload",
+            {
+                method: "POST",
+                body: data,
+            }
+        );
+        const file = await res.json();
+        setImage(file.secure_url);
+        setLoading(false);
+        formik.values.imgPath = file.secure_url;
+    };
 
     return (
         <Table>
@@ -75,46 +104,96 @@ const ProductList = (props) => {
                                         type="text"
                                         name="productName"
                                         id="productName"
-                                        placeholder="Name of Category"
+                                        placeholder="Name of Product"
                                         onChange={formik.handleChange}
                                         value={formik.values.productName}
                                     />
-                                    <Input
-                                        type="text"
-                                        name="productName"
-                                        id="productName"
-                                        placeholder="Name of Category"
-                                        onChange={formik.handleChange}
-                                        value={formik.values.productName}
-                                    />
+                                    <Row>
+                                    <Col md={6}>
+                                        <Label for="exampleEmail">Brand Id</Label>
+                                        <Input
+                                            type="text"
+                                            name="brandId"
+                                            id="brandId"
+                                            placeholder="Id of brand"
+                                            onChange={formik.handleChange}
+                                            value={formik.values.brandId}
+                                        />
+                                    </Col>
+                                    <Col md={6}>
+                                        <Label for="exampleEmail">Category Id</Label>
+                                        <Input
+                                            type="text"
+                                            name="categoryId"
+                                            id="categoryId"
+                                            placeholder="Id of category"
+                                            onChange={formik.handleChange}
+                                            value={formik.values.categoryId}
+                                        />
+                                    </Col>
+                                    </Row>                                    
+                                    <Label for="exampleEmail">Short Description</Label>
                                     <Input
                                         type="text"
                                         name="productShortDescription"
                                         id="productShortDescription"
-                                        placeholder="Name of Category"
+                                        placeholder="Short Description for thumpnail"
                                         onChange={formik.handleChange}
                                         value={formik.values.productShortDescription}
                                     />
+                                    <Label for="exampleEmail">Full Description</Label>
                                     <Input
                                         type="textarea"
                                         name="productFullDescription"
                                         id="productFullDescription"
-                                        placeholder="Name of Category"
+                                        placeholder="Description"
                                         onChange={formik.handleChange}
                                         value={formik.values.productFullDescription}
                                     />
+                                    <Row>
+                                    <Col md={6}>
+                                        <Label for="exampleEmail">Price</Label>
+                                        <Input
+                                            type="text"
+                                            name="productPriceNow"
+                                            id="productPriceNow"
+                                            placeholder="Price for sale"
+                                            onChange={formik.handleChange}
+                                            value={formik.values.productPriceNow}
+                                        />
+                                    </Col>
+                                    <Col md={6}>
+                                        <Label for="exampleEmail">Price Before (if discounted)</Label>
+                                        <Input
+                                            type="text"
+                                            name="productPriceBefore"
+                                            id="productPriceBefore"
+                                            placeholder="Undiscounted price"
+                                            onChange={formik.handleChange}
+                                            value={formik.values.productPriceBefore}
+                                        />
+                                    </Col>
+                                    </Row>     
+                                    <Label htmlFor="images">Upload Image</Label>
+                                    <Input
+                                        type="file"
+                                        id="imgPath"
+                                        name="imgPath"
+                                        placeholder="Upload an image"
+                                        onChange={uploadImage}
+                                        style={{ display: "block" }}
+                                        value={formik.values.imgPath}
+                                    />                               
                                 </FormGroup>
-
+                                <Button color="primary" type="submit" onClick={toggle}>
+                                    Submit
+                                </Button>{" "}
+                                <Button color="secondary" onClick={toggle}>
+                                    Cancel
+                                </Button>
                             </Form>
+                            
                         </ModalBody>
-                        <ModalFooter>
-                            <Button color="primary" type="submit" onClick={toggle}>
-                                Submit
-              </Button>{" "}
-                            <Button color="secondary" onClick={toggle}>
-                                Cancel
-              </Button>
-                        </ModalFooter>
                     </Modal>
                 </tr>
             </thead>
@@ -128,9 +207,9 @@ const ProductList = (props) => {
                             <td>{e.productPriceNow}</td>
                             <td>{e.productPriceBefore}</td>
                             <td>
-                                <img className="photo" src={LOCAL_HOST + "images/" + e.images[0]} /></td>
+                                <img className="photo" src={e.images[0]} /></td>
                             <td>
-                                <Button color="info" onClick={()=>selectItem1(e.id)}>Update</Button>{" "}
+                                <Button color="info" onClick={() => selectItem1(e.id)}>Update</Button>{" "}
                                 <Button color="danger" onClick={() => Delete(e.id)}>
                                     Delete
                                 </Button>

@@ -39,7 +39,8 @@ const BrandList = (props) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      brandName: selectedItem==null?"":selectedItem.brandName
+      brandName: selectedItem==null?"":selectedItem.brandName,
+      brandDescription : selectedItem==null?"":selectedItem.brandDescription
     },
     onSubmit : async (values) => {
       console.log(values);
@@ -58,6 +59,7 @@ const BrandList = (props) => {
         <tr>
           <th>#</th>
           <th>Name</th>
+          <th>Description</th>
           <th>Option</th>
           <th>
             <Button color="success" onClick={toggle}>Create</Button>
@@ -75,8 +77,16 @@ const BrandList = (props) => {
                     id="brandName"
                     placeholder="Name of Brand"
                     onChange={formik.handleChange}
-                    value={formik.values.brandName}
-                   
+                    value={formik.values.brandName}                   
+                  />
+                  <Label for="exampleEmail">Description</Label>
+                  <Input
+                    type="text"
+                    name="brandDescription"
+                    id="brandDescription"
+                    placeholder="Description"
+                    onChange={formik.handleChange}
+                    value={formik.values.brandDescription}                   
                   />
                 </FormGroup>
                 <Button color="primary" type="submit" onClick={toggle}>
@@ -96,6 +106,7 @@ const BrandList = (props) => {
             <tr key={i}>
               <th scope="row">{e.id}</th>
               <td>{e.brandName}</td>
+              <td>{e.brandDescription}</td>
               <td>
                 <Button color="info"  onClick={()=>selectItem1(e.id)}>Update</Button>{" "}
                 <Button color="danger" onClick={() => Delete(e.id)}>

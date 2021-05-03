@@ -17,7 +17,7 @@
                     <div class="product-item">
                         <div class="product-thumb">
                             @{ string image = product.images.FirstOrDefault(); }
-                            <img src="~/images/@Html.DisplayFor(modelItem => image)" alt="">
+                            <img src="@product.images.FirstOrDefault()" alt="">
                         </div>
                         <div class="product-content">
                             <h5><a asp-controller="Home" asp-action="ProductView" asp-route-id="@product.Id">@product.ProductName</a></h5>

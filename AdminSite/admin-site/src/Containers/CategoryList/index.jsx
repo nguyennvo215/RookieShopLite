@@ -30,7 +30,6 @@ const CategoryList = (props) => {
   const [selectedItem,setSelectedItem] = useState();
 
   async function selectItem1(i){
-    //i.preventDefault();
       setSelectedItem( (await Axios.get(LOCAL_HOST+'api/categories/'+i)).data);
       console.log("select",selectedItem);
       toggle()
@@ -39,7 +38,8 @@ const CategoryList = (props) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      categoryName: selectedItem==null?"":selectedItem.categoryName
+      categoryName: selectedItem==null?"":selectedItem.categoryName,
+      categoryDescription: selectedItem==null?"":selectedItem.categoryDescription
     },
     onSubmit : async (values) => {
       console.log(values);
@@ -57,6 +57,7 @@ const CategoryList = (props) => {
         <tr>
           <th>#</th>
           <th>Name</th>
+          <th>Description</th>
           <th>Option</th>
           <th>
             <Button color="success" onClick={toggle}>Create</Button>
@@ -74,6 +75,15 @@ const CategoryList = (props) => {
                     placeholder="Name of Category"
                     onChange={formik.handleChange}
                     value={formik.values.categoryName}
+                  />
+                  <Label for="exampleEmail">Description</Label>
+                  <Input
+                    type="text"
+                    name="categoryDescription"
+                    id="categoryDescription"
+                    placeholder="Description"
+                    onChange={formik.handleChange}
+                    value={formik.values.categoryDescription}
                   />
                 </FormGroup>
                 <Button color="primary" type="submit" onClick={toggle}>
@@ -93,6 +103,7 @@ const CategoryList = (props) => {
             <tr key={i}>
               <th scope="row">{e.id}</th>
               <td>{e.categoryName}</td>
+              <td>{e.categoryDescription}</td>
               <td>
                 <Button color="info" onClick={()=>selectItem1(e.id)}>Update</Button>{" "}
                 <Button color="danger" onClick={() => Delete(e.id)}>
