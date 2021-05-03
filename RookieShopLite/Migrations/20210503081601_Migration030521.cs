@@ -2,7 +2,7 @@
 
 namespace RookieShopLite.Migrations
 {
-    public partial class Migration280421 : Migration
+    public partial class Migration030521 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,6 +22,12 @@ namespace RookieShopLite.Migrations
                 name: "TotalPrice",
                 table: "Carts");
 
+            migrationBuilder.AddColumn<string>(
+                name: "CategoryDescription",
+                table: "Categories",
+                type: "nvarchar(max)",
+                nullable: true);
+
             migrationBuilder.AlterColumn<string>(
                 name: "UserId",
                 table: "Carts",
@@ -29,6 +35,12 @@ namespace RookieShopLite.Migrations
                 nullable: false,
                 oldClrType: typeof(int),
                 oldType: "int");
+
+            migrationBuilder.AddColumn<string>(
+                name: "BrandDescription",
+                table: "Brands",
+                type: "nvarchar(max)",
+                nullable: true);
 
             migrationBuilder.CreateTable(
                 name: "CartProducts",
@@ -127,6 +139,14 @@ namespace RookieShopLite.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_Carts_UserId",
                 table: "Carts");
+
+            migrationBuilder.DropColumn(
+                name: "CategoryDescription",
+                table: "Categories");
+
+            migrationBuilder.DropColumn(
+                name: "BrandDescription",
+                table: "Brands");
 
             migrationBuilder.AddColumn<int>(
                 name: "CartId",

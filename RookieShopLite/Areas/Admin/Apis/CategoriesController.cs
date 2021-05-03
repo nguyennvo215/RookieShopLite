@@ -30,7 +30,7 @@ namespace RookieShopLite.Areas.Admin.Apis
         {
             return await _context.Categories
                 .Where(x => x.isDeleted == false)
-                .Select(x => new CategoryViewModel { Id = x.Id, CategoryName = x.CategoryName})
+                .Select(x => new CategoryViewModel { Id = x.Id, CategoryName = x.CategoryName, CategoryDescription = x.CategoryDescription })
                 .ToListAsync();
         }
 
@@ -48,7 +48,8 @@ namespace RookieShopLite.Areas.Admin.Apis
             var categoryViewModel = new CategoryViewModel
             {
                 Id = category.Id,
-                CategoryName = category.CategoryName
+                CategoryName = category.CategoryName,
+                CategoryDescription = category.CategoryDescription
             };
 
             return categoryViewModel;
@@ -66,6 +67,7 @@ namespace RookieShopLite.Areas.Admin.Apis
             }
 
             category.CategoryName = categoryCreateRequest.CategoryName;
+            category.CategoryDescription = categoryCreateRequest.CategoryDescription;
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -77,7 +79,8 @@ namespace RookieShopLite.Areas.Admin.Apis
         {
             var category = new Category
             {
-                CategoryName = categoryCreateRequest.CategoryName
+                CategoryName = categoryCreateRequest.CategoryName,
+                CategoryDescription = categoryCreateRequest.CategoryDescription
             };
 
             _context.Categories.Add(category);

@@ -28,7 +28,7 @@ namespace RookieShopLite.Areas.Admin.Apis
         {
             return await _context.Brands
                 .Where(x => x.isDeleted == false)
-                .Select(x => new BrandViewModel { Id = x.Id, BrandName = x.BrandName })
+                .Select(x => new BrandViewModel { Id = x.Id, BrandName = x.BrandName, BrandDescription = x.BrandDescription })
                 .ToListAsync();
         }
 
@@ -46,7 +46,8 @@ namespace RookieShopLite.Areas.Admin.Apis
             var brandViewModel = new BrandViewModel
             {
                 Id = brand.Id,
-                BrandName = brand.BrandName
+                BrandName = brand.BrandName,
+                BrandDescription = brand.BrandDescription
             };
 
             return brandViewModel;
@@ -64,12 +65,14 @@ namespace RookieShopLite.Areas.Admin.Apis
             }
 
             brand.BrandName = brandCreateRequest.BrandName;
+            brand.BrandDescription = brandCreateRequest.BrandDescription;
             await _context.SaveChangesAsync();
 
             var brandViewModel = new BrandViewModel
             {
                 Id = brand.Id,
-                BrandName = brand.BrandName
+                BrandName = brand.BrandName,
+                BrandDescription = brand.BrandDescription
             };
 
             return brandViewModel;
@@ -81,7 +84,9 @@ namespace RookieShopLite.Areas.Admin.Apis
         {
             var brand = new Brand
             {
-                BrandName = brandCreateRequest.BrandName
+                BrandName = brandCreateRequest.BrandName,
+                BrandDescription = brandCreateRequest.BrandDescription,
+                isDeleted = false
             };
 
             _context.Brands.Add(brand);

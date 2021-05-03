@@ -8,5 +8,6 @@ namespace RookieShopLite.Areas.Admin.Models
     public class CategoryCreateRequest
     {
         public string CategoryName { get; set; }
+        public string CategoryDescription { get; set; }
     }
 }

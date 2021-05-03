@@ -1,5 +1,3 @@
-using System;
-
 namespace RookieShopLite.Models
 {
     public class ErrorViewModel
