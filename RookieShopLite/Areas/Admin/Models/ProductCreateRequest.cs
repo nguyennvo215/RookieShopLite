@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace RookieShopLite.Areas.Admin.Models
+﻿namespace RookieShopLite.Areas.Admin.Models
 {
     public class ProductCreateRequest
     {
-        [Required]
         public string ProductName { get; set; }
         public int BrandId { get; set; }
         public int CategoryId { get; set; }
