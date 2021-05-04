@@ -9,6 +9,6 @@
         public string ProductFullDescription { get; set; }
         public decimal ProductPriceNow { get; set; }
         public decimal ProductPriceBefore { get; set; }
-        public string imgPath { get; set; }
+        public string ImgPath { get; set; }
     }
 }

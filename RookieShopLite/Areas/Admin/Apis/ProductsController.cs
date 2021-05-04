@@ -138,14 +138,14 @@ namespace RookieShopLite.Areas.Admin.Apis
             product.isDeleted = false;
             await _context.SaveChangesAsync();
 
-            if (productCreateRequest.imgPath == null)
+            if (productCreateRequest.ImgPath == null)
             {
-                productCreateRequest.imgPath = "";
+                productCreateRequest.ImgPath = "";
             }
 
             var image = new ProductImage
             {
-                imgPath = productCreateRequest.imgPath,
+                imgPath = productCreateRequest.ImgPath,
                 ProductId = product.Id,
                 AddedDate = DateTime.Now,
                 isDeleted = false
@@ -179,6 +179,7 @@ namespace RookieShopLite.Areas.Admin.Apis
                 ProductShortDescription = productCreateRequest.ProductShortDescription,
                 ProductFullDescription = productCreateRequest.ProductFullDescription,
                 ProductPriceNow = productCreateRequest.ProductPriceNow,
+                ProductPriceBefore = productCreateRequest.ProductPriceBefore,
                 CategoryId = productCreateRequest.CategoryId,
                 BrandId = productCreateRequest.BrandId,
                 AddedDate = DateTime.Now,
@@ -188,14 +189,14 @@ namespace RookieShopLite.Areas.Admin.Apis
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-            if (productCreateRequest.imgPath == null)
+            if (productCreateRequest.ImgPath == null)
             {
-                productCreateRequest.imgPath = "";
+                productCreateRequest.ImgPath = "";
             }                
 
             var image = new ProductImage
             {
-                imgPath = productCreateRequest.imgPath,
+                imgPath = productCreateRequest.ImgPath,
                 ProductId = product.Id,
                 AddedDate = DateTime.Now,
                 isDeleted = false
