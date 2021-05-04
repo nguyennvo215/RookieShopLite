@@ -23,7 +23,6 @@
                     </div> <!-- /.product-image -->
                     <div class="product-information">
                         <h2>@product.ProductName</h2>
-                        <p>@product.ProductShortDescription</p>
                         <p>@product.ProductFullDescription</p>
                         @if (product.ProductPriceBefore != 0)
                         {
@@ -73,7 +72,7 @@
                                 </a>
                             </noscript>
                         </div>
-                    </div> <!-- /.product-information -->
+                    </div>
                 </div>
                 <div class="col-md-4 col-sm-8">
                     @foreach (var rating in product.Ratings)
@@ -95,19 +94,26 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <form asp-controller="Home" asp-action="ProductView" method="post">
-                            <b>Choose your rating: </b><br />
-                            <input hidden value="@product.Id" name="ProductId" />
-                            <input name="RatingNumber" type="number" />
-                            <textarea name="Content" placeholder="Please give me some real reviews!"></textarea>
+                            <div class="row">
+                                <b class="col-md-6 col-sm-8">Choose your rating: </b>
+                                <input hidden value="@product.Id" name="ProductId" /> <br />
+                                <input class="col-md-5 col-sm-8" name="RatingNumber" type="number" />
+                            </div>
+                            <br />
+                            <textarea class="btn-block" name="Content" placeholder="Please give me some real reviews!"></textarea>
 
                             <button type="submit" class="btn btn-primary btn-lg btn-block">Post</button>
                         </form>
                     }
-                </div> <!-- /.col-md-4 -->
-            </div> <!-- /.row -->
+                    else
+                    {
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary btn-lg btn-block">Login to Rate</a>
+                    }
+                </div> 
+            </div>
         }
-    </div> <!-- /.container -->
-</div> <!-- /.content-section -->
+    </div> 
+</div> 
 
 <script>
     var slideIndex = 1;
