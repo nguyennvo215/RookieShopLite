@@ -29,3 +29,8 @@ Then if you open the solution file .sln, you can simply run the project. Or if y
 `dotnet run`
 
 The project will start and the DbInitializer will automatically seed the data into DB and you can use the project as is.
+
+# Demo Website Link
+[Client Site](https://backend19c829ee3a0347caab7bca6f4bda5776.azurewebsites.net) 
+
+[Admin Site](https://sa8097880e85be4b9f86ada6.z23.web.core.windows.net/)
