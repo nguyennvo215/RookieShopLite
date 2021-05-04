@@ -20,7 +20,7 @@ import { LOCAL_HOST } from "../../Constants/env";
 
 const ProductList = (props) => {
     const Delete = (id) => {
-        Axios.delete(LOCAL_HOST + 'api/products/' + id).then(
+        Axios.delete(`${process.env.REACT_APP_BACK_HOST}api/products/` + id).then(
             (res) => {
                 console.log(res);
                 console.log(res.data);
@@ -34,7 +34,7 @@ const ProductList = (props) => {
     const [loading, setLoading] = useState(false);
 
     async function selectItem1(i) {
-        setSelectedItem((await Axios.get(LOCAL_HOST + 'api/products/' + i)).data[0]);
+        setSelectedItem((await Axios.get(`${process.env.REACT_APP_BACK_HOST}api/products/` + i)).data[0]);
         console.log("select", selectedItem);
         toggle()
     }
@@ -43,20 +43,21 @@ const ProductList = (props) => {
         enableReinitialize: true,
         initialValues: {
             productName: selectedItem == null ? "" : selectedItem.productName,
-            brandId: selectedItem == null ? "" : selectedItem.brandId,
-            categoryId: selectedItem == null ? "" : selectedItem.categoryId,
+            brandId: selectedItem == null ? 0 : selectedItem.brandId,
+            categoryId: selectedItem == null ? 0 : selectedItem.categoryId,
             productShortDescription: selectedItem == null ? "" : selectedItem.productShortDescription,
             productFullDescription: selectedItem == null ? "" : selectedItem.productFullDescription,
-            productPriceNow: selectedItem == null ? "" : selectedItem.productPriceNow,
-            productPriceBefore: selectedItem == null ? "" : selectedItem.productPriceBefore,
+            productPriceNow: selectedItem == null ? 0 : selectedItem.productPriceNow,
+            productPriceBefore: selectedItem == null ? 0 : selectedItem.productPriceBefore,
             imgPath: ""
         },
         onSubmit: async (values) => {
             console.log(values);
             if (selectedItem == null) {
-                await Axios.post(LOCAL_HOST + 'api/products', values);
+                console.log(values);
+                await Axios.post(`${process.env.REACT_APP_BACK_HOST}api/products`, values);
             } else {
-                await Axios.put(LOCAL_HOST + 'api/products/' + selectedItem.id, values);
+                await Axios.put(`${process.env.REACT_APP_BACK_HOST}api/products/` + selectedItem.id, values);
             }
         }
     });
@@ -75,6 +76,7 @@ const ProductList = (props) => {
             }
         );
         const file = await res.json();
+        console.log(file);
         setImage(file.secure_url);
         setLoading(false);
         formik.values.imgPath = file.secure_url;
@@ -109,29 +111,29 @@ const ProductList = (props) => {
                                         value={formik.values.productName}
                                     />
                                     <Row>
-                                    <Col md={6}>
-                                        <Label for="exampleEmail">Brand Id</Label>
-                                        <Input
-                                            type="text"
-                                            name="brandId"
-                                            id="brandId"
-                                            placeholder="Id of brand"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.brandId}
-                                        />
-                                    </Col>
-                                    <Col md={6}>
-                                        <Label for="exampleEmail">Category Id</Label>
-                                        <Input
-                                            type="text"
-                                            name="categoryId"
-                                            id="categoryId"
-                                            placeholder="Id of category"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.categoryId}
-                                        />
-                                    </Col>
-                                    </Row>                                    
+                                        <Col md={6}>
+                                            <Label for="exampleEmail">Brand Id</Label>
+                                            <Input
+                                                type="number"
+                                                name="brandId"
+                                                id="brandId"
+                                                placeholder="Id of brand"
+                                                onChange={formik.handleChange}
+                                                value={formik.values.brandId}
+                                            />
+                                        </Col>
+                                        <Col md={6}>
+                                            <Label for="exampleEmail">Category Id</Label>
+                                            <Input
+                                                type="number"
+                                                name="categoryId"
+                                                id="categoryId"
+                                                placeholder="Id of category"
+                                                onChange={formik.handleChange}
+                                                value={formik.values.categoryId}
+                                            />
+                                        </Col>
+                                    </Row>
                                     <Label for="exampleEmail">Short Description</Label>
                                     <Input
                                         type="text"
@@ -151,39 +153,45 @@ const ProductList = (props) => {
                                         value={formik.values.productFullDescription}
                                     />
                                     <Row>
-                                    <Col md={6}>
-                                        <Label for="exampleEmail">Price</Label>
-                                        <Input
-                                            type="text"
-                                            name="productPriceNow"
-                                            id="productPriceNow"
-                                            placeholder="Price for sale"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.productPriceNow}
-                                        />
-                                    </Col>
-                                    <Col md={6}>
-                                        <Label for="exampleEmail">Price Before (if discounted)</Label>
-                                        <Input
-                                            type="text"
-                                            name="productPriceBefore"
-                                            id="productPriceBefore"
-                                            placeholder="Undiscounted price"
-                                            onChange={formik.handleChange}
-                                            value={formik.values.productPriceBefore}
-                                        />
-                                    </Col>
-                                    </Row>     
+                                        <Col md={6}>
+                                            <Label for="exampleEmail">Price</Label>
+                                            <Input
+                                                type="number"
+                                                name="productPriceNow"
+                                                id="productPriceNow"
+                                                placeholder="Price for sale"
+                                                onChange={formik.handleChange}
+                                                value={formik.values.productPriceNow}
+                                            />
+                                        </Col>
+                                        <Col md={6}>
+                                            <Label for="exampleEmail">Price Before (if discounted)</Label>
+                                            <Input
+                                                type="number"
+                                                name="productPriceBefore"
+                                                id="productPriceBefore"
+                                                placeholder="Undiscounted price"
+                                                onChange={formik.handleChange}
+                                                value={formik.values.productPriceBefore}
+                                            />
+                                        </Col>
+                                    </Row>
                                     <Label htmlFor="images">Upload Image</Label>
                                     <Input
                                         type="file"
-                                        id="imgPath"
-                                        name="imgPath"
+                                        id="file"
+                                        name="file"
                                         placeholder="Upload an image"
                                         onChange={uploadImage}
                                         style={{ display: "block" }}
+                                    />
+                                    <Input 
+                                        type="hidden"
+                                        id="imgPath"
+                                        name="imgPath"
+                                        onChange={formik.handleChange}
                                         value={formik.values.imgPath}
-                                    />                               
+                                    />
                                 </FormGroup>
                                 <Button color="primary" type="submit" onClick={toggle}>
                                     Submit
@@ -192,7 +200,7 @@ const ProductList = (props) => {
                                     Cancel
                                 </Button>
                             </Form>
-                            
+
                         </ModalBody>
                     </Modal>
                 </tr>

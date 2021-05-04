@@ -1,5 +1,4 @@
 import React from 'react';
-//import '@font';
 
 export default function sideBar() {
     return (

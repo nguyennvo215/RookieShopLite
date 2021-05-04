@@ -14,6 +14,7 @@ import Brand from './Containers/Brand';
 import User from './Containers/User'
 import NavBar from './Components/NavBar';
 import { LOCAL_HOST } from "./Constants/env";
+require("dotenv").config();
 
 function App() {
 

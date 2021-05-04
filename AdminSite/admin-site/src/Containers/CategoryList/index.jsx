@@ -8,17 +8,14 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText,
   Modal,
   ModalHeader,
-  ModalBody,
-  ModalFooter,
+  ModalBody
 } from "reactstrap";
-import { LOCAL_HOST } from '../../Constants/env';
 
 const CategoryList = (props) => {
   const Delete=(id)=> {
-     Axios.delete(LOCAL_HOST+'api/categories/'+id).then(
+     Axios.delete(`${process.env.REACT_APP_BACK_HOST}api/categories/` + id).then(
       (res) => {
         console.log(res);
         console.log(res.data);
@@ -30,7 +27,7 @@ const CategoryList = (props) => {
   const [selectedItem,setSelectedItem] = useState();
 
   async function selectItem1(i){
-      setSelectedItem( (await Axios.get(LOCAL_HOST+'api/categories/'+i)).data);
+      setSelectedItem( (await Axios.get(`${process.env.REACT_APP_BACK_HOST}api/categories/` + i)).data);
       console.log("select",selectedItem);
       toggle()
   }
@@ -44,9 +41,9 @@ const CategoryList = (props) => {
     onSubmit : async (values) => {
       console.log(values);
       if (selectedItem == null) {
-        await Axios.post(LOCAL_HOST+'api/categories', values);
+        await Axios.post(`${process.env.REACT_APP_BACK_HOST}api/categories`, values);
       } else {
-        await Axios.put(LOCAL_HOST+'api/categories/'+selectedItem.id, values);
+        await Axios.put(`${process.env.REACT_APP_BACK_HOST}api/categories/` + selectedItem.id, values);
       }
     }
   });

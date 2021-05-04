@@ -8,17 +8,14 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText,
   Modal,
   ModalHeader,
-  ModalBody,
-  ModalFooter,
+  ModalBody
 } from "reactstrap";
-import { LOCAL_HOST } from '../../Constants/env';
 
 const BrandList = (props) => {
   const Delete=(id)=> {
-     Axios.delete(LOCAL_HOST+'api/Brands/'+id).then(
+     Axios.delete(`${process.env.REACT_APP_BACK_HOST}api/brands/` + id).then(
       (res) => {
         console.log(res);
         console.log(res.data);
@@ -31,7 +28,7 @@ const BrandList = (props) => {
 
   async function selectItem1(i){
     //i.preventDefault();
-      setSelectedItem( (await Axios.get(LOCAL_HOST+'api/brands/'+i)).data);
+      setSelectedItem( (await Axios.get(`${process.env.REACT_APP_BACK_HOST}api/brands/` + i)).data);
       console.log("select",selectedItem);
       toggle()
   }
@@ -45,9 +42,9 @@ const BrandList = (props) => {
     onSubmit : async (values) => {
       console.log(values);
       if (selectedItem == null) {
-        await Axios.post(LOCAL_HOST+'api/brands', values);
+        await Axios.post(`${process.env.REACT_APP_BACK_HOST}api/brands`, values);
       } else {
-        await Axios.put(LOCAL_HOST+'api/brands/'+selectedItem.id, values);
+        await Axios.put(`${process.env.REACT_APP_BACK_HOST}api/brands/` + selectedItem.id, values);
       }
     }
   });
