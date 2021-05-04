@@ -27,9 +27,7 @@ const BrandList = (props) => {
   const [selectedItem,setSelectedItem] = useState();
 
   async function selectItem1(i){
-    //i.preventDefault();
       setSelectedItem( (await Axios.get(`${process.env.REACT_APP_BACK_HOST}api/brands/` + i)).data);
-      console.log("select",selectedItem);
       toggle()
   }
 
@@ -40,10 +38,16 @@ const BrandList = (props) => {
       brandDescription : selectedItem==null?"":selectedItem.brandDescription
     },
     onSubmit : async (values) => {
-      console.log(values);
       if (selectedItem == null) {
         await Axios.post(`${process.env.REACT_APP_BACK_HOST}api/brands`, values);
       } else {
+        var newData = {
+          ...props.item.find(d => d.id == selectedItem.id),
+          ...values
+        };
+        var oldData = [...props.item.filter(d => d.id != selectedItem.id)]
+        var newArray = [...oldData, newData].sort((a,b) => {return a.id - b.id});
+        props.handler(newArray);
         await Axios.put(`${process.env.REACT_APP_BACK_HOST}api/brands/` + selectedItem.id, values);
       }
     }

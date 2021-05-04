@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import BrandList from "./BrandList";
-import { LOCAL_HOST } from "../Constants/env";
 
 export default function Home() {
 
@@ -14,10 +13,13 @@ export default function Home() {
         }
         fetchData();
     }, []);
-    console.log(res1);
+
+    const HandleBrandData = (newData) => {
+        setRes(newData);
+    }
     return (
         <div>
-            <BrandList item={res1} />
+            <BrandList item={res1} handler={HandleBrandData} />
         </div>
     );
 }

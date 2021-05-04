@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import CategoryList from "./CategoryList";
-import { LOCAL_HOST } from "../Constants/env";
 
 export default function Home() {
 
@@ -14,12 +13,14 @@ export default function Home() {
         }
         fetchData();
     }, []);
-    console.log(res1);
-    let a=process.env.REACT_APP_BACK_HOST;
-    console.log(a);
+
+    const HandleBrandData = (newData) => {
+        setRes(newData);
+    }
+
     return (
         <div>
-            <CategoryList item={res1} />
+            <CategoryList item={res1} handler={HandleBrandData} />
         </div>
     );
 }

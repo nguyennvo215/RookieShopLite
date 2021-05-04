@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import UserList from "./UserList";
-import { LOCAL_HOST } from "../Constants/env";
 
 export default function Home() {
 

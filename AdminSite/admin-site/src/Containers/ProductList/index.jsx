@@ -54,9 +54,15 @@ const ProductList = (props) => {
         onSubmit: async (values) => {
             console.log(values);
             if (selectedItem == null) {
-                console.log(values);
                 await Axios.post(`${process.env.REACT_APP_BACK_HOST}api/products`, values);
             } else {
+                var newData = {
+                    ...props.item.find(d => d.id == selectedItem.id),
+                    ...values
+                  };
+                  var oldData = [...props.item.filter(d => d.id != selectedItem.id)]
+                  var newArray = [...oldData, newData].sort((a,b) => {return a.id - b.id});
+                  props.handler(newArray);
                 await Axios.put(`${process.env.REACT_APP_BACK_HOST}api/products/` + selectedItem.id, values);
             }
         }
