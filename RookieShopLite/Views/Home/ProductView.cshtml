@@ -20,7 +20,7 @@
                         }
                         <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
                         <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
-                    </div> <!-- /.product-image -->
+                    </div>
                     <div class="product-information">
                         <h2>@product.ProductName</h2>
                         <p>@product.ProductFullDescription</p>
@@ -56,10 +56,9 @@
                             <div id="disqus_thread"></div>
                             <script>
 
-                                (function () {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+                                (function () {
                                     var d = document, s = d.createElement('script');
 
-                                    // IMPORTANT: Replace 3wmthemes with your forum shortname!
                                     s.src = 'https://3wmthemes.disqus.com/embed.js';
 
                                     s.setAttribute('data-timestamp', +new Date());
@@ -101,19 +100,18 @@
                             </div>
                             <br />
                             <textarea class="btn-block" name="Content" placeholder="Please give me some real reviews!"></textarea>
-
                             <button type="submit" class="btn btn-primary btn-lg btn-block">Post</button>
                         </form>
                     }
                     else
                     {
-                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary btn-lg btn-block">Login to Rate</a>
+                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary btn-lg btn-block">Login to Rate</a>
                     }
-                </div> 
+                </div>
             </div>
         }
-    </div> 
-</div> 
+    </div>
+</div>
 
 <script>
     var slideIndex = 1;
