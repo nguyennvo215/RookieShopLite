@@ -1,0 +1,6 @@
+﻿@model List<RookieShopLite.ViewModel.BrandViewModel>
+
+@foreach (var item in Model)
+{
+    <li><a asp-area="" asp-route-brandId="@item.Id" asp-action="Index" asp-controller="Home">@item.BrandName</a></li>
+}

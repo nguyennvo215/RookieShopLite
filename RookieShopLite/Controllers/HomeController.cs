@@ -25,13 +25,18 @@ namespace RookieShopLite.Controllers
             _rating = rating;
         }
 
-        public async Task<IActionResult> Index(int categoryId)
+        public async Task<IActionResult> Index(int categoryId, int brandId)
         {
             if (categoryId != 0)
             {
                 var products = await _product.GetProductsByCategory(categoryId);
                 return View(products);
             }
+            else if (brandId != 0)
+            {
+                var products = await _product.GetProductsByBrand(brandId);
+                return View(products);
+            } 
             else
             {
                 var products = await _product.GetProducts();

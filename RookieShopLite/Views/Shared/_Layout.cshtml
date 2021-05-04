@@ -88,9 +88,7 @@
                     <div class="col-md-6 col-sm-7">
                         <div class="list-menu">
                             <ul>
-                                <li><a asp-controller="Home" asp-action="Index">Shop</a></li>
-                                <li><a asp-controller="Home" asp-action="ProductView" asp-route-id=1>Details</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                @await Component.InvokeAsync("BrandList")
                                 <li><a asp-controller="Cart" asp-action="CartDetail"><i class="fas fa-shopping-cart"></i> Cart</a></li>
                             </ul>
                         </div>
